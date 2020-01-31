@@ -47,7 +47,7 @@
 <li><p>交通便利程度</p>
 </li>
 </ul>
-<h2 id="填写权重表格，得到判断矩阵"><a href="#填写权重表格，得到判断矩阵" class="headerlink" title="填写权重表格，得到判断矩阵"></a>填写权重表格，得到判断矩阵</h2><p><img src="/.io//%E6%8D%95%E8%8E%B71.PNG" alt></p>
+<h2 id="填写权重表格，得到判断矩阵"><a href="#填写权重表格，得到判断矩阵" class="headerlink" title="填写权重表格，得到判断矩阵"></a>填写权重表格，得到判断矩阵</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B71.PNG" alt></p>
 <p><strong>其中同色格子内容相加和为一</strong></p>
 <p>我们先来确定第一列的权重（景色，花费，居住，饮食，交通的指标权重）</p>
 <blockquote>
@@ -55,7 +55,7 @@
 <p>解决方法：两个两个指标进行比较，最终根据两两比较的结果来推算出权重</p>
 </blockquote>
 <p>可以采用下面表格中的方法（用1-9表示满意程度或重要程度，用于两两比较）</p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B7.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B7.PNG" alt></p>
 <p>可以得到下面的表格</p>
 <table>
 <thead>
@@ -173,8 +173,8 @@
 <p>我们称满足这一条件的矩阵为<strong>正互反矩阵</strong></p>
 <p>即为层次分析法中的<strong>判断矩阵</strong></p>
 <p>接下来得到剩下的四个判断矩阵</p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B74.PNG" alt></p>
-<h2 id="判断矩阵进行一次性检验"><a href="#判断矩阵进行一次性检验" class="headerlink" title="判断矩阵进行一次性检验"></a>判断矩阵进行一次性检验</h2><p><img src="/.io//%E6%8D%95%E8%8E%B73.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B74.PNG" alt></p>
+<h2 id="判断矩阵进行一次性检验"><a href="#判断矩阵进行一次性检验" class="headerlink" title="判断矩阵进行一次性检验"></a>判断矩阵进行一次性检验</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B73.PNG" alt></p>
 <blockquote>
 <p>遇到的问题：出现了矛盾之处（不一致的现象）</p>
 <p>苏杭 = A，北戴河 = B，桂林 = C</p>
@@ -182,23 +182,23 @@
 <p>苏杭和桂林景色一样好 A = C</p>
 <p>北戴河比桂林景色好 B &gt; C</p>
 </blockquote>
-<h3 id="一致矩阵"><a href="#一致矩阵" class="headerlink" title="一致矩阵"></a>一致矩阵</h3><p><img src="/.io//%E6%8D%95%E8%8E%B75.PNG" alt></p>
+<h3 id="一致矩阵"><a href="#一致矩阵" class="headerlink" title="一致矩阵"></a>一致矩阵</h3><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B75.PNG" alt></p>
 <p>若矩阵中每个元素 a<sub>ij</sub> &gt; 0，且满足a<sub>ij</sub> × a<sub>ji</sub> = 1，则为<strong>正互反矩阵</strong></p>
 <p>在层次分析法中，我们构造的判断矩阵<strong>均为正互反矩阵</strong></p>
 <p>若正互反矩阵满足 a<sub>ij</sub> × a<sub>jk</sub> =  a<sub>ik</sub> ，则我们称其为<strong>一致矩阵</strong></p>
 <p><strong>注意：在使用判断矩阵求权重之前，必须对其进行一致性检验</strong></p>
 <h3 id="一致性检验"><a href="#一致性检验" class="headerlink" title="一致性检验"></a>一致性检验</h3><p><strong>原理：检验我们构造的判断矩阵和一致矩阵是否有太大的差别</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B76.PNG" alt></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B77.PNG" alt></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B78.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B76.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B77.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B78.PNG" alt></p>
 <p><strong>判断矩阵越不一致时，最大特征值与 n 相差越大</strong></p>
 <p><strong>一致性检验的步骤</strong></p>
 <p><strong>第一步：计算一致性指标CI</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B710.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B710.PNG" alt></p>
 <p><strong>第二步：查找对应的平均随即一致性指标RI</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B711.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B711.PNG" alt></p>
 <p><strong>第三步：计算一致性比例CR</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B712.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B712.PNG" alt></p>
 <p><strong>如果 CR &lt; 0.1，则可认为判断矩阵的一致性可以接受；否则需要对判断矩阵进行修正。</strong></p>
 <h2 id="计算权重"><a href="#计算权重" class="headerlink" title="计算权重"></a>计算权重</h2><h3 id="一致矩阵计算权重"><a href="#一致矩阵计算权重" class="headerlink" title="一致矩阵计算权重"></a>一致矩阵计算权重</h3><table>
 <thead>
@@ -276,32 +276,32 @@
 <p><strong>第三步：将相加后得到的向量中每个元素除以 n 即可得到权重向量</strong></p>
 <p>综合上述三列，求出平均权重</p>
 <p><strong>数学符号表示：</strong></p>
-<img src="/.io//捕获13.PNG" alt style="zoom:80%;">
+<img src="/2020/01/31/【数学建模】1-1层次分析法模型/捕获13.PNG" alt style="zoom:80%;">
 
 <h4 id="方法二：几何平均法求权重"><a href="#方法二：几何平均法求权重" class="headerlink" title="方法二：几何平均法求权重"></a>方法二：几何平均法求权重</h4><p><strong>第一步：将A的元素按照行相乘得到一个新的列向量</strong></p>
 <p><strong>第二步：将新的向量的每个分量开 n 次方</strong></p>
 <p><strong>第三步：对该列向量进行归一化即可得到权重向量</strong></p>
 <p><strong>数学符号表示：</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B714.PNG" alt></p>
-<h4 id="方法三：特征值法求权重"><a href="#方法三：特征值法求权重" class="headerlink" title="方法三：特征值法求权重"></a>方法三：特征值法求权重</h4><p><img src="/.io//%E6%8D%95%E8%8E%B715.PNG" alt></p>
-<p><img src="/.io//%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E3%80%911-1%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%E6%A8%A1%E5%9E%8B%5C%E6%8D%95%E8%8E%B716.PNG" alt="捕获16"></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B714.PNG" alt></p>
+<h4 id="方法三：特征值法求权重"><a href="#方法三：特征值法求权重" class="headerlink" title="方法三：特征值法求权重"></a>方法三：特征值法求权重</h4><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B715.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E3%80%90%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E3%80%911-1%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%E6%A8%A1%E5%9E%8B%5C%E6%8D%95%E8%8E%B716.PNG" alt="捕获16"></p>
 <p><strong>第一步：求出矩阵 A 的最大特征值以及对应的特征向量</strong></p>
 <p><strong>第二步：对求出的特征向量进行归一化即可得到权重</strong></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B717.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B717.PNG" alt></p>
 <p><strong>注：常用特征值法！</strong></p>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/.io//%E6%8D%95%E8%8E%B718.PNG" alt></p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B718.PNG" alt></p>
 <h1 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h1><h2 id="第一步：分析建立系统的层次结构"><a href="#第一步：分析建立系统的层次结构" class="headerlink" title="第一步：分析建立系统的层次结构"></a>第一步：分析建立系统的层次结构</h2><p>分析系统中各因素之间的关系，建立系统的递阶层次结构</p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B719.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B719.PNG" alt></p>
 <h2 id="第二步：构造判断矩阵"><a href="#第二步：构造判断矩阵" class="headerlink" title="第二步：构造判断矩阵"></a>第二步：构造判断矩阵</h2><p>对于同一层次的各元素关于上一层次中某一准则的重要性进行两两比较，构造两两比较矩阵（判断矩阵）</p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B720.PNG" alt></p>
-<p><img src="/.io//%E6%8D%95%E8%8E%B722.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B720.PNG" alt></p>
+<p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B722.PNG" alt></p>
 <h2 id="第三步：计算权重，一致性检验"><a href="#第三步：计算权重，一致性检验" class="headerlink" title="第三步：计算权重，一致性检验"></a>第三步：计算权重，一致性检验</h2><p>由判断矩阵计算被比较元素对于该准则的相对权重，并进行一致性检验（检验通过权重才能使用）</p>
 <p>三种方法：算术平均法，几何平均法，特征值法</p>
 <p><strong>建议在比赛时同时使用三种方法：</strong></p>
 <p><strong>“为了保证结果的稳健性，本文采用了三种方法分别求出了权重”，再根据得到的权重矩阵计算各方案得分，这样得出的结论更全面更有效。</strong></p>
-<h2 id="第四步：计算合成权重并排序"><a href="#第四步：计算合成权重并排序" class="headerlink" title="第四步：计算合成权重并排序"></a>第四步：计算合成权重并排序</h2><h2 id="最后举个栗子"><a href="#最后举个栗子" class="headerlink" title="最后举个栗子"></a>最后举个栗子</h2><p><img src="/.io//%E6%8D%95%E8%8E%B721.PNG" alt></p>
-<h1 id="模型拓展"><a href="#模型拓展" class="headerlink" title="模型拓展"></a>模型拓展</h1><h2 id="多层准则"><a href="#多层准则" class="headerlink" title="多层准则"></a>多层准则</h2><p><img src="/.io//%E6%8D%95%E8%8E%B723.PNG" alt></p>
-<h2 id="方案不对应所有准则"><a href="#方案不对应所有准则" class="headerlink" title="方案不对应所有准则"></a>方案不对应所有准则</h2><p><img src="/.io//%E6%8D%95%E8%8E%B724.PNG" alt></p>
+<h2 id="第四步：计算合成权重并排序"><a href="#第四步：计算合成权重并排序" class="headerlink" title="第四步：计算合成权重并排序"></a>第四步：计算合成权重并排序</h2><h2 id="最后举个栗子"><a href="#最后举个栗子" class="headerlink" title="最后举个栗子"></a>最后举个栗子</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B721.PNG" alt></p>
+<h1 id="模型拓展"><a href="#模型拓展" class="headerlink" title="模型拓展"></a>模型拓展</h1><h2 id="多层准则"><a href="#多层准则" class="headerlink" title="多层准则"></a>多层准则</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B723.PNG" alt></p>
+<h2 id="方案不对应所有准则"><a href="#方案不对应所有准则" class="headerlink" title="方案不对应所有准则"></a>方案不对应所有准则</h2><p><img src="/2020/01/31/【数学建模】1-1层次分析法模型/%E6%8D%95%E8%8E%B724.PNG" alt></p>
 <p>将相应权重设置为 0 即可。</p>
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2020/01/31/【数学建模】1-1层次分析法模型/">https://iwannaeat.github.io/2020/01/31/【数学建模】1-1层次分析法模型/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/header.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/01/30/1.1层次分析法模型/"><img class="next_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【数学建模】1.1层次分析法模型</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
 

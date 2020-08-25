@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【数据结构与算法】查找 | Hexo</title><meta name="description" content="【数据结构与算法】查找"><meta name="keywords" content="数据结构与算法"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2020/08/24/【数据结构与算法】查找/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【数据结构与算法】查找"><meta name="twitter:description" content="【数据结构与算法】查找"><meta name="twitter:image" content="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><meta property="og:type" content="article"><meta property="og:title" content="【数据结构与算法】查找"><meta property="og:url" content="https://iwannaeat.github.io/2020/08/24/【数据结构与算法】查找/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="【数据结构与算法】查找"><meta property="og:image" content="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="【数据结构与算法】内部排序" href="https://iwannaeat.github.io/2020/08/24/【数据结构与算法】内部排序/"><link rel="next" title="【数据结构与算法】图" href="https://iwannaeat.github.io/2020/08/23/【数据结构与算法】图/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#平衡二叉树"><span class="toc-number">1.</span> <span class="toc-text">平衡二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#调平"><span class="toc-number">1.1.</span> <span class="toc-text">调平</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造"><span class="toc-number">1.2.</span> <span class="toc-text">构造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LL型"><span class="toc-number">1.2.1.</span> <span class="toc-text">LL型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RR型"><span class="toc-number">1.2.2.</span> <span class="toc-text">RR型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LR型"><span class="toc-number">1.2.3.</span> <span class="toc-text">LR型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RL型"><span class="toc-number">1.2.4.</span> <span class="toc-text">RL型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#B-树的定义"><span class="toc-number">2.</span> <span class="toc-text">B- 树的定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#哈希表"><span class="toc-number">3.</span> <span class="toc-text">哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">3.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-number">3.2.</span> <span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#直接定址法"><span class="toc-number">3.2.1.</span> <span class="toc-text">直接定址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字分析法"><span class="toc-number">3.2.2.</span> <span class="toc-text">数字分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平方取中法"><span class="toc-number">3.2.3.</span> <span class="toc-text">平方取中法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#折叠法"><span class="toc-number">3.2.4.</span> <span class="toc-text">折叠法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除留余数法"><span class="toc-number">3.2.5.</span> <span class="toc-text">除留余数法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机数法"><span class="toc-number">3.2.6.</span> <span class="toc-text">随机数法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理冲突的方法"><span class="toc-number">3.3.</span> <span class="toc-text">处理冲突的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开放地址法"><span class="toc-number">3.3.1.</span> <span class="toc-text">开放地址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再哈希法"><span class="toc-number">3.3.2.</span> <span class="toc-text">再哈希法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链地址法"><span class="toc-number">3.3.3.</span> <span class="toc-text">链地址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立一个公共溢出区"><span class="toc-number">3.3.4.</span> <span class="toc-text">建立一个公共溢出区</span></a></li></ol></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【数据结构与算法】查找</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-08-24<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-08-24</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h1><p>是二叉排序树的另一种形式。</p>
+<p>特点：树中每个结点的左右子树深度之差的绝对值不大于一。</p>
+<h2 id="调平"><a href="#调平" class="headerlink" title="调平"></a>调平</h2><h2 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h2><p>在插入过程中，采用平衡旋转技术。</p>
+<p>四种情况：</p>
+<h3 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h3><p><img src="/2020/08/24/【数据结构与算法】查找/LL型.png" alt="LL型"></p>
+<h3 id="RR型"><a href="#RR型" class="headerlink" title="RR型"></a>RR型</h3><p><img src="/2020/08/24/【数据结构与算法】查找/RR型.png" alt="RR型"></p>
+<h3 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h3><p><img src="/2020/08/24/【数据结构与算法】查找/LR型.png" alt="LR型"></p>
+<h3 id="RL型"><a href="#RL型" class="headerlink" title="RL型"></a>RL型</h3><p><img src="/2020/08/24/【数据结构与算法】查找/RL型.png" alt="RL型"></p>
+<h1 id="B-树的定义"><a href="#B-树的定义" class="headerlink" title="B- 树的定义"></a>B- 树的定义</h1><p>是一种<strong>平衡</strong>的<strong>多路查找树</strong>。</p>
+<p>一棵 m 阶的 B- 树，或为空树，或为满足下列特性的 m 叉树。</p>
+<ul>
+<li><p>所有非叶节点均至少含有 $\lceil m/2\rceil$ 棵子树，至多含有 m 棵子树</p>
+</li>
+<li><p>根结点或为叶子结点，或至少含有两棵子树</p>
+</li>
+<li><p>所有非终端结点含有下列信息数据</p>
+<p>$n,A_0,K_1,A_1,K_2,A_2…K_n,A_n$</p>
+<p>其中，$K_i$ 是关键字，且均从小到大有序排列，$A_i$ 是指向子树根结点的指针，且指针$A_{i-1}$ 所指子树上所有关键字均小于$K_i$ ，$A_n$ 所指子树上所有关键字均大于 $K_n$</p>
+</li>
+<li><p>树中所有叶子结点均不带信息，且在树中的同一层次上（实际上这些结点不存在，只想这些结点的指针为空）</p>
+</li>
+</ul>
+<h1 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>哈希函数：关键字与表中存储位置之间建立的函数关系。</p>
+<p>哈希函数容易产生冲突：</p>
+<ul>
+<li>即$key1\ne key2 而 f(key1)=f(key2)$ 。<strong>具有相同函数值的关键字对该哈希函数来说称作同义词</strong>。</li>
+<li>很难找到一个不产生冲突的哈希函数，一般情况下只能选择恰当的哈希函数，使冲突尽可能少。</li>
+</ul>
+<p>因此在找到一个“好”的哈希函数的同时，也要找到一种“处理冲突”的方法。</p>
+<p>根据设定的<strong>哈希函数</strong>，和选中的<strong>处理冲突方法</strong>，将一组关键字<strong>映像到</strong>一个有限的、地址连续的地址集上，并以关键字在地址集中的“象”作为相应记录在表中的<strong>存储位置</strong>，如此构造所得的查找表称之为<strong>哈希表</strong>。</p>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>对数字的关键字有以下几种构造方法；非数字的可以先进行数字化处理。</p>
+<h3 id="直接定址法"><a href="#直接定址法" class="headerlink" title="直接定址法"></a>直接定址法</h3><p>哈希函数为关键字的线性函数</p>
+<p>适用于 地址集合的大小 == 关键字集合的大小</p>
+<h3 id="数字分析法"><a href="#数字分析法" class="headerlink" title="数字分析法"></a>数字分析法</h3><h3 id="平方取中法"><a href="#平方取中法" class="headerlink" title="平方取中法"></a>平方取中法</h3><h3 id="折叠法"><a href="#折叠法" class="headerlink" title="折叠法"></a>折叠法</h3><h3 id="除留余数法"><a href="#除留余数法" class="headerlink" title="除留余数法"></a>除留余数法</h3><h3 id="随机数法"><a href="#随机数法" class="headerlink" title="随机数法"></a>随机数法</h3><h2 id="处理冲突的方法"><a href="#处理冲突的方法" class="headerlink" title="处理冲突的方法"></a>处理冲突的方法</h2><p>实际含义：<strong>为产生冲突的地址寻找下一个哈希地址</strong>。通常有如下几种方法。</p>
+<h3 id="开放地址法"><a href="#开放地址法" class="headerlink" title="开放地址法"></a>开放地址法</h3><p>为产生冲突的地址 $H(key)$ 求得一个地址序列：$H_0,H_1,…,H_S (1\le s\le m-1)$</p>
+<p>其中：$H_0=H(key),H_i = (H(key)+d_i)mod m (i=1,2,…,s)$ m 为哈希表长</p>
+<p>对于增量 $d_i$ 有三种取法：</p>
+<ul>
+<li><p>线性探测再散列</p>
+<p>$d_i=1,2,3,…,m-1$</p>
+<p>在处理同义词的冲突过程中又添加了非同义词的冲突，称为<strong>二次聚集</strong></p>
+<p>可以覆盖哈希表中所有地址</p>
+</li>
+<li><p>二次探测再散列</p>
+<p>$d_i=1^2,-1^2,2^2,-2^2$</p>
+<p>表长 m 必须为形如 $4j+3$ 的素数时，才能覆盖所有地址</p>
+</li>
+<li><p>伪随机探测再散列</p>
+<p>$d_i$ 是一组伪随机数列，或者 $d_i=i\times H_2(key)$ （又称双散列函数探测）</p>
+<p>是否能够覆盖取决于伪随机数列（m和di没有公因子）</p>
+</li>
+</ul>
+<h3 id="再哈希法"><a href="#再哈希法" class="headerlink" title="再哈希法"></a>再哈希法</h3><p>$H_i=RH_i(key) i=1,2,…,k$</p>
+<p>$RH_i$ 均是不同的哈希函数，即在同义词产生地址冲突时，计算另一个哈希函数地址，直到冲突不再发生。这种方法不易产生“聚集”，但增加了计算的时间。</p>
+<h3 id="链地址法"><a href="#链地址法" class="headerlink" title="链地址法"></a>链地址法</h3><p>将所有哈希地址相同的记录都链接在同一线性链表中。（同一链表中关键字自小到大有序）</p>
+<h3 id="建立一个公共溢出区"><a href="#建立一个公共溢出区" class="headerlink" title="建立一个公共溢出区"></a>建立一个公共溢出区</h3><p>一旦发生冲突，都填入溢出表。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2020/08/24/【数据结构与算法】查找/">https://iwannaeat.github.io/2020/08/24/【数据结构与算法】查找/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/数据结构与算法/">数据结构与算法    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2020/08/24/【数据结构与算法】内部排序/"><img class="prev_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>【数据结构与算法】内部排序</span></div></a></div><div class="next-post pull-right"><a href="/2020/08/23/【数据结构与算法】图/"><img class="next_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【数据结构与算法】图</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/08/24/【数据结构与算法】内部排序/" title="【数据结构与算法】内部排序"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】内部排序</div></a></div><div class="relatedPosts_item"><a href="/2020/08/23/【数据结构与算法】图/" title="【数据结构与算法】图"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】图</div></a></div><div class="relatedPosts_item"><a href="/2020/08/17/【数据结构与算法】栈与队列/" title="【数据结构与算法】栈与队列"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】栈与队列</div></a></div><div class="relatedPosts_item"><a href="/2020/08/14/【数据结构与算法】线性表/" title="【数据结构与算法】线性表"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】线性表</div></a></div><div class="relatedPosts_item"><a href="/2020/08/20/【数据结构与算法】数组和广义表/" title="【数据结构与算法】数组和广义表"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】数组和广义表</div></a></div><div class="relatedPosts_item"><a href="/2020/08/23/【数据结构与算法】树与二叉树/" title="【数据结构与算法】树与二叉树"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/08/14/rs9WflHZ746qyca.png"><div class="relatedPosts_title">【数据结构与算法】树与二叉树</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

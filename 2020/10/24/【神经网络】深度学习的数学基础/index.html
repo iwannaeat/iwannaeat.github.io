@@ -1,0 +1,138 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【神经网络】深度学习的数学基础 | Hexo</title><meta name="description" content="软工课发的视频，在这里写个总结。"><meta name="keywords" content="神经网络"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2020/10/24/【神经网络】深度学习的数学基础/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【神经网络】深度学习的数学基础"><meta name="twitter:description" content="软工课发的视频，在这里写个总结。"><meta name="twitter:image" content="https://i.loli.net/2020/10/24/WZcoAJR2F4u38dt.png"><meta property="og:type" content="article"><meta property="og:title" content="【神经网络】深度学习的数学基础"><meta property="og:url" content="https://iwannaeat.github.io/2020/10/24/【神经网络】深度学习的数学基础/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="软工课发的视频，在这里写个总结。"><meta property="og:image" content="https://i.loli.net/2020/10/24/WZcoAJR2F4u38dt.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="【数学建模】国赛前的一点总结" href="https://iwannaeat.github.io/2020/09/08/【数学建模】国赛前的一点总结/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#【神经网络】深度学习的数学基础"><span class="toc-number">1.</span> <span class="toc-text">【神经网络】深度学习的数学基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#机器学习（深度学习）中的数学模型"><span class="toc-number">1.1.</span> <span class="toc-text">机器学习（深度学习）中的数学模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#神经网络在学什么"><span class="toc-number">1.1.1.</span> <span class="toc-text">神经网络在学什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#矩阵线性变换"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">矩阵线性变换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#秩"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">秩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#机器学习：数据降维"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">机器学习：数据降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#机器学习：低秩近似"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">机器学习：低秩近似</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#机器学习三要素：模型、策略、算法"><span class="toc-number">1.2.</span> <span class="toc-text">机器学习三要素：模型、策略、算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概率-函数形式的统一"><span class="toc-number">1.2.1.</span> <span class="toc-text">概率/函数形式的统一</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模型"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#策略"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算法"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举个栗子"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">举个栗子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“最优”的策略设计"><span class="toc-number">1.2.2.</span> <span class="toc-text">“最优”的策略设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#无免费午餐定理"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">无免费午餐定理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#奥卡姆剃刀原理"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">奥卡姆剃刀原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#损失函数"><span class="toc-number">1.2.3.</span> <span class="toc-text">损失函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Beyond-深度学习"><span class="toc-number">1.3.</span> <span class="toc-text">Beyond 深度学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#因果推断"><span class="toc-number">1.3.1.</span> <span class="toc-text">因果推断</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Yule-Simpson-悖论"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">Yule-Simpson 悖论</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2020/10/24/WZcoAJR2F4u38dt.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【神经网络】深度学习的数学基础</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-10-24<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-10-25</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="【神经网络】深度学习的数学基础"><a href="#【神经网络】深度学习的数学基础" class="headerlink" title="【神经网络】深度学习的数学基础"></a>【神经网络】深度学习的数学基础</h1><p>昨天刚和老师讨论完，本人的线代和概率还停留在只会做题的水平（好吧题也快不会做了），老师建议我多找找外国的公开课啥的，今天正好软工课的视频讲到了有关知识，所以来写个总结。</p>
+<h2 id="机器学习（深度学习）中的数学模型"><a href="#机器学习（深度学习）中的数学模型" class="headerlink" title="机器学习（深度学习）中的数学模型"></a>机器学习（深度学习）中的数学模型</h2><p>主流技术主要是线性代数、概率论（包含信息论）、最优化（微积分）（BP以及神经网络求解的最后其实都是最优化问题）。（班主任让我多学线代和概率诚不欺我）</p>
+<h3 id="神经网络在学什么"><a href="#神经网络在学什么" class="headerlink" title="神经网络在学什么"></a>神经网络在学什么</h3><p>这部分在 Hinton 的课程里已经讲了很多了，总的来说就是找到一个能够符合所有样本的权重值。而在求解的过程中，需要用到线性代数，也就是每次与矩阵相乘都可以看作是空间和维度的扭转变换。</p>
+<h4 id="矩阵线性变换"><a href="#矩阵线性变换" class="headerlink" title="矩阵线性变换"></a>矩阵线性变换</h4><p><img src="/2020/10/24/【神经网络】深度学习的数学基础/1.PNG" alt></p>
+<p>$\lambda x$ 的结果，由于 $\lambda$ 是数字，因此不会对 x 产生方向变化，只会产生尺度变化，这就意味着当矩阵 A  与 x 相乘后，只产生了尺度变化，此时 x 为 A 的特征向量，尺度变化系数就是特征值。</p>
+<p>看看下面这个图，更好理解。第一个图是 v 为 A 的特征向量时的结果，可以看到只产生了尺度变化；第二个图不是，因此同时产生了尺度变换和方向变换。</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/3.PNG" alt></p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/4.PNG" alt></p>
+<p>下图是一个向量 v ，和矩阵 A 的一次、二次等等相乘得到的图像，可以看出，矩阵相乘越多次，结果越接近矩阵最大特征值对应的特征向量，也就是说每次向量 v 与矩阵 A 相乘，都会更加接近矩阵 A 最大特征值对应的特征向量。</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/2.PNG" alt></p>
+<h4 id="秩"><a href="#秩" class="headerlink" title="秩"></a>秩</h4><p>定义：</p>
+<ul>
+<li>线性方程组的角度：度量矩阵行列之间的相关性。如果矩阵的各行或列是线性无关的，矩阵就是满秩的，也就是秩等于行数。</li>
+<li><p>数据点分布的角度：表示数据需要的最小的基的数量。</p>
+<ul>
+<li><p>数据分布模式越容易被捕捉，即需要的基越少，秩就越小。（我理解的是，越有规律的样本集，数据分布模式越容易被捕捉）<br><img src="/2020/10/24/【神经网络】深度学习的数学基础/5.PNG" alt></p>
+<p>比如说上面这张图，显然左边的秩比较小。</p>
+</li>
+<li><p>数据冗余度越大（数据越集中），需要的基越少，秩越小。</p>
+</li>
+<li><p>若矩阵表达的是结构化信息，如图像、用户-物品表等，各行之间存在一定相关性，一般是低秩的。（这里稍稍理解上有点问题）</p>
+<p>先把他给的例子截个图</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/mBlog\source\_posts\【神经网络】深度学习的数学基础\6.PNG" alt="6"></p>
+<p>从左到右，左边的秩最小，右边最大。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="机器学习：数据降维"><a href="#机器学习：数据降维" class="headerlink" title="机器学习：数据降维"></a>机器学习：数据降维</h4><p><img src="/2020/10/24/【神经网络】深度学习的数学基础/7.PNG" alt></p>
+<p>知识盲区。。。先记下来。</p>
+<p>图像压缩的一个例子：</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/8.PNG" alt></p>
+<h4 id="机器学习：低秩近似"><a href="#机器学习：低秩近似" class="headerlink" title="机器学习：低秩近似"></a>机器学习：低秩近似</h4><p><img src="/2020/10/24/【神经网络】深度学习的数学基础/9.PNG" alt></p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/10.PNG" alt></p>
+<p>海，先记下来。</p>
+<h2 id="机器学习三要素：模型、策略、算法"><a href="#机器学习三要素：模型、策略、算法" class="headerlink" title="机器学习三要素：模型、策略、算法"></a>机器学习三要素：模型、策略、算法</h2><h3 id="概率-函数形式的统一"><a href="#概率-函数形式的统一" class="headerlink" title="概率/函数形式的统一"></a>概率/函数形式的统一</h3><h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p>指数族：可以看作对某些概率分布的一个标准化形式(????)</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/11.PNG" alt></p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/12.PNG" alt></p>
+<p>广义线性模型：逻辑回归等都属于此模型</p>
+<p>二者之间有一对一的关系。比如指数族属于高斯分布，那么对应的决策函数一定是一个线性回归。</p>
+<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><p>给出目标函数后，从假设空间中学习/选择最优模型的准则。</p>
+<p>极大似然估计/最大后验。</p>
+<p>经验风险最小化/结构风险最小化。</p>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><p>这里是不是要讲一下Delta Rule了（猜测）</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/13.PNG" alt></p>
+<p>比起启发式优化算法，梯度下降的方法在面对大量数据的时候效率更高；启发式优化算法更擅长处理局部最优解问题，而很多的问题是没有局部最优解（最小值）的，而是会有很多鞍点。</p>
+<h4 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h4><p><img src="/2020/10/24/【神经网络】深度学习的数学基础/14.PNG" alt></p>
+<p>蒙圈了，先记下来。</p>
+<h3 id="“最优”的策略设计"><a href="#“最优”的策略设计" class="headerlink" title="“最优”的策略设计"></a>“最优”的策略设计</h3><p>最适合的模型：追求泛化能力的模型</p>
+<p>之前只是简单了解了泛化能力的概念，这里是定量的描述：</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/15.PNG" alt></p>
+<p>x y 代表输入和实际值。</p>
+<p>更多情况下我们计算的是训练误差：</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/16.PNG" alt></p>
+<p>最终的目的：获得小的泛化误差</p>
+<ul>
+<li>训练误差要小</li>
+<li>训练误差与泛化误差足够接近（不懂为啥）</li>
+<li>计算学习理论：衡量训练误差与泛化误差的差异（知识盲区）</li>
+</ul>
+<h4 id="无免费午餐定理"><a href="#无免费午餐定理" class="headerlink" title="无免费午餐定理"></a>无免费午餐定理</h4><p>简单来说就是，一个模型不可能适用于所有的情况。在脱离实际意义情况下，空泛的谈论哪种算法好毫无意义，要谈论算法优劣必须针对具体问题。</p>
+<h4 id="奥卡姆剃刀原理"><a href="#奥卡姆剃刀原理" class="headerlink" title="奥卡姆剃刀原理"></a>奥卡姆剃刀原理</h4><p>“简单有效原理” “如无必要，勿增实体”</p>
+<p>这里提到了一个“欠拟合”和“过拟合”的概念。欠拟合就是说，训练集的一般性质尚未被学习好，比如将绿色叶子作为训练集，欠拟合情况下它会把一棵树也看作是叶子；过拟合是指，训练误差小，测试误差大，例如恰好训练集中的叶子都是尖齿的，那么在过拟合情况下，会认为圆边缘的叶子不是叶子。</p>
+<p>解决方案：</p>
+<ul>
+<li><p>欠拟合：提高模型复杂度</p>
+<ul>
+<li>决策树：拓展分支</li>
+<li>神经网络：增加训练轮数</li>
+</ul>
+</li>
+<li><p>过拟合：降低模型复杂度</p>
+<ul>
+<li>优化目标加正则项</li>
+<li>决策树剪枝</li>
+<li>神经网络：early stop、dropout</li>
+</ul>
+</li>
+<li><p>数据增广：训练集越大，越不容易过拟合</p>
+<ul>
+<li>计算机视觉：图像旋转、缩放、剪切</li>
+<li>自然语言处理：同义词替换</li>
+<li>语音识别：添加随机噪声</li>
+</ul>
+</li>
+</ul>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>讲到类似 Delta Rule 了</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/17.PNG" alt></p>
+<p>有关交叉熵完全没懂，后续补坑。</p>
+<h2 id="Beyond-深度学习"><a href="#Beyond-深度学习" class="headerlink" title="Beyond 深度学习"></a>Beyond 深度学习</h2><h3 id="因果推断"><a href="#因果推断" class="headerlink" title="因果推断"></a>因果推断</h3><h4 id="Yule-Simpson-悖论"><a href="#Yule-Simpson-悖论" class="headerlink" title="Yule-Simpson 悖论"></a>Yule-Simpson 悖论</h4><p>相关性不可靠，很容易被其他因素所干扰。</p>
+<p>举个例子</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/18.PNG" alt></p>
+<p>因果性 = 相关性 + 忽略的因素</p>
+<p><img src="/2020/10/24/【神经网络】深度学习的数学基础/19.PNG" alt></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2020/10/24/【神经网络】深度学习的数学基础/">https://iwannaeat.github.io/2020/10/24/【神经网络】深度学习的数学基础/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/神经网络/">神经网络    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/10/24/WZcoAJR2F4u38dt.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/09/08/【数学建模】国赛前的一点总结/"><img class="next_cover lozad" data-src="https://i.loli.net/2020/02/02/koezKsWHUY5LMba.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【数学建模】国赛前的一点总结</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

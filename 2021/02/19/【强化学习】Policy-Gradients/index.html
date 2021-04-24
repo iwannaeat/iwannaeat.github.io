@@ -1,0 +1,117 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【强化学习】Policy-Gradient | Hexo</title><meta name="description" content="强化学习之Policy Gradient。CS 285-lec5课程学习笔记。"><meta name="keywords" content="强化学习"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2021/02/19/【强化学习】Policy-Gradients/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【强化学习】Policy-Gradient"><meta name="twitter:description" content="强化学习之Policy Gradient。CS 285-lec5课程学习笔记。"><meta name="twitter:image" content="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><meta property="og:type" content="article"><meta property="og:title" content="【强化学习】Policy-Gradient"><meta property="og:url" content="https://iwannaeat.github.io/2021/02/19/【强化学习】Policy-Gradients/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="强化学习之Policy Gradient。CS 285-lec5课程学习笔记。"><meta property="og:image" content="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="【多智能体】MADDPG算法" href="https://iwannaeat.github.io/2021/04/22/【多智能体】MADDPG算法/"><link rel="next" title="【强化学习】Actor-Critic算法" href="https://iwannaeat.github.io/2020/12/08/【强化学习】Actor-Critic算法/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#与Q-Learning的比较"><span class="toc-number">1.1.</span> <span class="toc-text">与Q Learning的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何更新"><span class="toc-number">1.2.</span> <span class="toc-text">如何更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#策略梯度如何下降"><span class="toc-number">1.3.</span> <span class="toc-text">策略梯度如何下降</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法推导"><span class="toc-number">2.</span> <span class="toc-text">算法推导</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法中的策略梯度函数推导"><span class="toc-number">2.1.</span> <span class="toc-text">算法中的策略梯度函数推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对策略梯度进行评估"><span class="toc-number">2.2.</span> <span class="toc-text">对策略梯度进行评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何进行收敛"><span class="toc-number">2.3.</span> <span class="toc-text">如何进行收敛</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部分观测时的算法设计"><span class="toc-number">2.4.</span> <span class="toc-text">部分观测时的算法设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Policy-Gradient的高方差问题"><span class="toc-number">3.</span> <span class="toc-text">Policy Gradient的高方差问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#高方差问题"><span class="toc-number">3.1.</span> <span class="toc-text">高方差问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减小方差的方法"><span class="toc-number">3.2.</span> <span class="toc-text">减小方差的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Causality假设"><span class="toc-number">3.2.1.</span> <span class="toc-text">Causality假设</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加入Baseline"><span class="toc-number">3.2.2.</span> <span class="toc-text">加入Baseline</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Policy-Gradient方法的实现技巧"><span class="toc-number">4.</span> <span class="toc-text">Policy Gradient方法的实现技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Off-policy-Policy-Gradient"><span class="toc-number">4.1.</span> <span class="toc-text">Off-policy Policy Gradient</span></a></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【强化学习】Policy-Gradient</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2021-02-19<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2021-04-25</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="与Q-Learning的比较"><a href="#与Q-Learning的比较" class="headerlink" title="与Q Learning的比较"></a>与Q Learning的比较</h2><p>相比于之前学习的Q Learning，这个算法的不同点在于，可以不分析奖励值，直接从一个连续的动作空间中选择下一步要进行的动作，而Q Learning只能从有限多个动作中进行选择。</p>
+<h2 id="如何更新"><a href="#如何更新" class="headerlink" title="如何更新"></a>如何更新</h2><p>Policy Gradients不使用反向传递误差来更新网络，而是使用环境给出的 reward 来进行反向传递，从而来决定是否增加这次选择的动作再次被选择的概率。</p>
+<h2 id="策略梯度如何下降"><a href="#策略梯度如何下降" class="headerlink" title="策略梯度如何下降"></a>策略梯度如何下降</h2><p>类比交叉熵</p>
+<script type="math/tex; mode=display">
+H(p,q)=-\sum_xp(x)\log q(x)</script><p>其中 $p(x)$ 为对应的标签，$q(x)$ 为输出的概率。</p>
+<p>但在RL中是没有标签的。此时可以使用 reward 来充当标签。</p>
+<p>假设一次状态行为序列为 $\gamma=\{s_1,a_1,r_1,s_2,…,s_t,a_t\}$ ，其中 $s_t$ 表示 t 时刻时的状态，$a_t$ 代表位于 $s_t$ 时采取的动作。这样的动作策略，使得我们得到了 reward $R(\gamma)$ 。接下来使用下面的式子进行计算：</p>
+<script type="math/tex; mode=display">
+L(\theta)=-\frac{1}{N}\sum_\gamma R(\gamma)\log\pi_\theta(\gamma)</script><p>其中 $\pi_\theta(\gamma)$ 表示了采取策略 $\gamma$ 的发生概率，N 为采样 $\gamma$ 的数目。</p>
+<h1 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h1><h2 id="算法中的策略梯度函数推导"><a href="#算法中的策略梯度函数推导" class="headerlink" title="算法中的策略梯度函数推导"></a>算法中的策略梯度函数推导</h2><p>将智能体的整个行为过程用数学表示如下：（表示成为一个动作和状态的序列）</p>
+<script type="math/tex; mode=display">
+p_\theta(\tau)=p_\theta(s_1,a_1,...,s_T,a_T)=p(s_1)\prod_{t=1}^T\pi_\theta(a_t|s_t)p(s_{t+1}|s_t,a_t)</script><p>我们要优化的目标为：</p>
+<script type="math/tex; mode=display">
+\theta^*=arg\ \max_\theta E_{\tau\sim p_\theta(\tau)}[\sum r(s_t,a_t)]</script><p>即为遵循上面的状态、动作轨迹，所能达到的最大环境奖励值的期望，此时求得的策略就是最佳策略</p>
+<p>这里进行如下的定义：</p>
+<script type="math/tex; mode=display">
+J(\theta)=E_{\tau\sim\pi_\theta(\tau)}[r(\tau)]=\int \pi_\theta(\tau)r(\tau)d\tau</script><p>其梯度如下：</p>
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)=\int \nabla_\theta\pi_\theta(\tau)r(\tau)d\tau=\int \pi_\theta(\tau)\nabla_\theta \log \pi_\theta(\tau) r(\tau)d\tau</script><p>此处用到了一个定理：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/1.PNG" alt></p>
+<p>这样的话就得到了下面的算式：</p>
+<script type="math/tex; mode=display">
+\tag{1}
+\nabla_\theta J(\theta)=E_{\tau\sim\pi_\theta(\tau)}[\nabla_\theta \log \pi_\theta(\tau) r(\tau)]</script><p>接下来专注求解 $\nabla_\theta \log \pi_\theta(\tau)$ 。将 $\pi_\theta$ 转换如下：</p>
+<script type="math/tex; mode=display">
+\pi_\theta(s_1,a_1,...,s_T,a_T)=p(s_1)\prod_{t=1}^T\pi_\theta(a_t|s_t)p(s_{t+1}|s_t,a_t)\\
+\log \pi_\theta(\tau)=\log p(s_1)+\sum^T_{t=1}\log \pi_\theta(a_t|s_t)+\log p(s_{t+1}|s_t,a_t)</script><p>在计算梯度时，由于第一项和最后一项均为常数（由环境本身决定），因此其梯度为0。最终将上式代入式 $(1)$ 可以得到：</p>
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)=E_{\tau\sim\pi_\theta(\tau)}\left[\left(\sum ^T_{t=1}\nabla_\theta \log \pi_\theta(a_t|s_t)\right)\left(\sum^T_{t=1}r(s_t,a_t)\right)\right]</script><h2 id="对策略梯度进行评估"><a href="#对策略梯度进行评估" class="headerlink" title="对策略梯度进行评估"></a>对策略梯度进行评估</h2><p>经过前面的推导，我们可以得到如下公式：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/2.PNG" alt></p>
+<p>这就是策略梯度的计算公式。可以利用如下的式子来更新当前策略：</p>
+<script type="math/tex; mode=display">
+\theta \leftarrow \theta+\alpha\nabla_{\theta}J(\theta)</script><p>接下来就可以初步的得到一个算法：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/3.png" alt></p>
+<h2 id="如何进行收敛"><a href="#如何进行收敛" class="headerlink" title="如何进行收敛"></a>如何进行收敛</h2><p>极大似然估计中的策略梯度如下所示：<br><img src="/2021/02/19/【强化学习】Policy-Gradients/4.PNG" alt></p>
+<p>可以看到，极大似然的公式和policy gradient只相差一个reward和的乘积。这样的话，在求解策略梯度时，就可以用求极大似然的方法来进行求解。</p>
+<p> 再观察策略梯度的公式：</p>
+<script type="math/tex; mode=display">
+\tag{2}
+\nabla_\theta J(\theta) 
+ \approx\frac{1}{N}\sum^N_{i=1}\nabla_\theta\log \pi_\theta(\tau_i)r(\tau_i)\\
+ =\frac{1}{N}\sum^N_{i=1}\left(\sum ^T_{t=1}\nabla_\theta \log \pi_\theta(a_{i,t}|o_{i,t})\right)\left(\sum^T_{t=1}r(s_{i,t},a_{i,t})\right)</script><p>式子中的梯度表明了增加轨迹 $\tau $ 概率的方向，可以看到式子中的 $\pi_\theta(\tau_i)$ 与奖励值相乘，这就表明如果奖励值大时，对应的高奖励的轨迹就更有可能出现，反之低奖励值的轨迹出现的概率更小。</p>
+<h2 id="部分观测时的算法设计"><a href="#部分观测时的算法设计" class="headerlink" title="部分观测时的算法设计"></a>部分观测时的算法设计</h2><p>只需要将式 $(2)$ 中的 $s_t$ 修改成为 $o_t$ 即可，因为环境本身会直接给出奖励值，与观测多少数据是无关的。</p>
+<h1 id="Policy-Gradient的高方差问题"><a href="#Policy-Gradient的高方差问题" class="headerlink" title="Policy Gradient的高方差问题"></a>Policy Gradient的高方差问题</h1><h2 id="高方差问题"><a href="#高方差问题" class="headerlink" title="高方差问题"></a>高方差问题</h2><p>策略梯度方法有一个重要的缺陷就是方差会很高。这里用一个简单例子进行说明，如下图：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/5.png" alt></p>
+<p>这里横坐标代表不同的采样样本，绿色线段是采样得到的智能体与环境交互后得到的奖赏值；第二步向第一步得到的奖赏值上加一个常量，该常量并不会影响策略梯度（下文也有相关推导）。但这两次得到的策略的概率分布结果却相差很多，这就是策略梯度方法高方差问题的直观体现，而高方差带来的问题就是算法更新的过程不稳定。</p>
+<h2 id="减小方差的方法"><a href="#减小方差的方法" class="headerlink" title="减小方差的方法"></a>减小方差的方法</h2><h3 id="Causality假设"><a href="#Causality假设" class="headerlink" title="Causality假设"></a>Causality假设</h3><p>第一个是进行causality的假设：未来时刻的策略并不能影响之前时刻的奖赏值。</p>
+<p>对原有的策略梯度公式中的奖赏值部分进行修改，原先的公式中后两项是先求和再相乘，如下：</p>
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)  \approx\frac{1}{N}\sum^N_{i=1}\left[\left(\sum ^T_{t=1}\nabla_\theta \log \pi_\theta(a_{i,t}|o_{i,t})\right)\left(\sum^T_{t=1}r(s_{i,t},a_{i,t})\right)\right]</script><p>修改之后的公式如下所示：只考虑从当前策略的时间往后推移的奖赏值，而不考虑之前的</p>
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)  \approx\frac{1}{N}\sum^N_{i=1}\left[\left(\sum ^T_{t=1}\nabla_\theta \log \pi_\theta(a_{i,t}|o_{i,t})\right)\left(\sum^T_{t=1}r(s_{i,t'},a_{i,t'})\right)\right]</script><h3 id="加入Baseline"><a href="#加入Baseline" class="headerlink" title="加入Baseline"></a>加入Baseline</h3><p>第二种方法在奖赏值的基础上减去一个常数(均值)，这个常数叫作baseline，公式化表示就是:</p>
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)=E_{\tau\sim\pi_\theta(\tau)}[\nabla_\theta \log \pi_\theta(\tau) (r(\tau)-b)]</script><p>最简单的情况下取值为：</p>
+<script type="math/tex; mode=display">
+b=\frac{1}{N}\sum ^N_{i=1}r(\tau)</script><p>那么如何选择最优的baseline来最小化策略梯度本身的方差呢</p>
+<p>方差计算公式：$Var[x] = E[x^2]-(E[x])^2$</p>
+<p>将策略梯度的公式代入得到：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/6.PNG" alt></p>
+<p>如果要使其最小，可以通过对其求导数并令其导数为0，从而求得最优的baseline的表达式，这里为了简化推导，令 $g(\tau)=\nabla_\theta\log p_\theta$ </p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/7.PNG" alt></p>
+<p>从而得到：</p>
+<script type="math/tex; mode=display">
+b=\cfrac{E[g(\tau)^2r(\tau)]}{E[g(\tau)^2]}</script><h1 id="Policy-Gradient方法的实现技巧"><a href="#Policy-Gradient方法的实现技巧" class="headerlink" title="Policy Gradient方法的实现技巧"></a>Policy Gradient方法的实现技巧</h1><p>这里其实应当自己总结一下，不过先把课程中老师提到的技巧记录一下：</p>
+<p>总体上只需要给出损失函数即可，剩下的任务交给tf或者pytorch去做</p>
+<p>其他要点：</p>
+<ul>
+<li>使用较大的batch size对参数进行更新</li>
+<li>手动调整learning_rates很困难，可以使用ADAM优化器</li>
+</ul>
+<h2 id="Off-policy-Policy-Gradient"><a href="#Off-policy-Policy-Gradient" class="headerlink" title="Off-policy Policy Gradient"></a>Off-policy Policy Gradient</h2><p>其实policy gradient的方法的高方差问题起源于该算法是on-policy的算法，由于每次采样必须使用新的策略，所以每次采样的数据在一次梯度上升之后就被扔掉了。</p>
+<p>有一种解决方法是使用 importance sampling：</p>
+<p><img src="/2021/02/19/【强化学习】Policy-Gradients/8.png" alt></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2021/02/19/【强化学习】Policy-Gradients/">https://iwannaeat.github.io/2021/02/19/【强化学习】Policy-Gradients/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/强化学习/">强化学习    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/22/【多智能体】MADDPG算法/"><img class="prev_cover lozad" data-src="https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>【多智能体】MADDPG算法</span></div></a></div><div class="next-post pull-right"><a href="/2020/12/08/【强化学习】Actor-Critic算法/"><img class="next_cover lozad" data-src="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【强化学习】Actor-Critic算法</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/11/26/【强化学习】Q-Learning/" title="【强化学习】Q-Learning"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><div class="relatedPosts_title">【强化学习】Q-Learning</div></a></div><div class="relatedPosts_item"><a href="/2020/12/08/【强化学习】Actor-Critic算法/" title="【强化学习】Actor-Critic算法"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><div class="relatedPosts_title">【强化学习】Actor-Critic算法</div></a></div><div class="relatedPosts_item"><a href="/2020/12/02/【强化学习】马尔可夫决策过程/" title="【强化学习】马尔可夫决策过程"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><div class="relatedPosts_title">【强化学习】马尔可夫决策过程</div></a></div><div class="relatedPosts_item"><a href="/2020/11/26/【强化学习】简介/" title="【强化学习】简介"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2020/11/19/xeiV7gasZt62pdG.png"><div class="relatedPosts_title">【强化学习】简介</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2021 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

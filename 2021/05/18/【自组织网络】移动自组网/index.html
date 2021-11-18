@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【自组织网络】移动自组网 | Hexo</title><meta name="description" content="论文中用到的移动自组网算法"><meta name="keywords" content="自组织网络"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2021/05/18/【自组织网络】移动自组网/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【自组织网络】移动自组网"><meta name="twitter:description" content="论文中用到的移动自组网算法"><meta name="twitter:image" content="https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png"><meta property="og:type" content="article"><meta property="og:title" content="【自组织网络】移动自组网"><meta property="og:url" content="https://iwannaeat.github.io/2021/05/18/【自组织网络】移动自组网/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="论文中用到的移动自组网算法"><meta property="og:image" content="https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="【密码学】数字签名" href="https://iwannaeat.github.io/2021/09/25/【密码学】数字签名/"><link rel="next" title="【多智能体】MADDPG算法" href="https://iwannaeat.github.io/2021/04/22/【多智能体】MADDPG算法/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由协议"><span class="toc-number">2.</span> <span class="toc-text">路由协议</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【自组织网络】移动自组网</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2021-05-18<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2021-06-08</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>首先对移动自组网进行分类：</p>
+<p>根据网络控制结构，可以分为以下两种：</p>
+<ul>
+<li>全分布式移动自组织网络：对等网络，在这种网络结构中，没有任何中心控制节点。该结构的优点是：可靠性高，抗毁能力强，能动态跟踪网络的拓扑变化。其不足之处是：每个节点都需有较大的存储容量和较强的处理能力，网络开销大。</li>
+<li>分层分布式移动自组织网络：形成过程如下：从网络的普通节点中，筛选出一组节点作为控制节点(群首)，由这些控制节点组成一个全分布式控制的干线网络；每个控制节点具有相同的责任和权力，可各自控制一群普通节点；当网络节点数较大时，还可从控制节点中再筛选出一组超群控制节点(超群首)，由这些超群控制节点组成一个全分布控制的网络。如果需要，还可从超群控制节点中产生更高一层的控制节点，直至产生最高层的控制节点。</li>
+</ul>
+<p>根据网络的组网体制，可以分为：</p>
+<ul>
+<li>集中式移动自组织网络：网络有专门的组网期，在此期间内实现网络的各种算法。组网期以外为正常通信期，在此期间内网络一般不作调整。该方式又可分为周期性组网和非周期性组网两类。周期性组网指网络每隔一个固定的时间间隔，重新组网一次；非周期性组网指网络根据当前的工作状态决定何时重新组网。</li>
+<li>分散式移动自组织网络：在分散式组网方式中，网络没有专门的组网期。网络可随时跟踪拓扑变化，并修正节点的有关参数。该方式又可分为周期性分散组网方式和非周期性分散组网方式两类。周期性分散组网方式指网络每个节点周期性地广播一个自组织数据包，将自己取得的信息和有关计算结果通知相邻节点；非周期性分散组网方式指网络节点不定期地广播自组织数据包，如果节点发送数据的间隔不超过规定的时间，则不广播自组织包；若节点空闲，则周期性地广播自组织数据包。</li>
+</ul>
+<h1 id="路由协议"><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h1><p>路由协议是在我的论文中主要关注的部分。将单个智能体看作是路由节点，他们之间的路由算法决定了他们如何构建通讯拓扑图。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2021/05/18/【自组织网络】移动自组网/">https://iwannaeat.github.io/2021/05/18/【自组织网络】移动自组网/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/自组织网络/">自组织网络    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2021/09/25/【密码学】数字签名/"><img class="prev_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>【密码学】数字签名</span></div></a></div><div class="next-post pull-right"><a href="/2021/04/22/【多智能体】MADDPG算法/"><img class="next_cover lozad" data-src="https://i.loli.net/2021/04/22/Blyqpd5tY6vwEhZ.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【多智能体】MADDPG算法</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2021 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

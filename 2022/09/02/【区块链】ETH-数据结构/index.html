@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【区块链】ETH-数据结构 | Hexo</title><meta name="description" content="北京大学肖臻《区块链技术》课程笔记"><meta name="keywords" content="区块链"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2022/09/02/【区块链】ETH-数据结构/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【区块链】ETH-数据结构"><meta name="twitter:description" content="北京大学肖臻《区块链技术》课程笔记"><meta name="twitter:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta property="og:type" content="article"><meta property="og:title" content="【区块链】ETH-数据结构"><meta property="og:url" content="https://iwannaeat.github.io/2022/09/02/【区块链】ETH-数据结构/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="北京大学肖臻《区块链技术》课程笔记"><meta property="og:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="【区块链】ETH-帐户" href="https://iwannaeat.github.io/2022/09/02/【区块链】ETH-帐户/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#状态树"><span class="toc-number">1.</span> <span class="toc-text">状态树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Trie-字典树，前缀树"><span class="toc-number">1.1.</span> <span class="toc-text">Trie 字典树，前缀树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Patricia-Tree-压缩前缀树"><span class="toc-number">1.2.</span> <span class="toc-text">Patricia Tree 压缩前缀树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Merkle-Patricia-Tree"><span class="toc-number">1.3.</span> <span class="toc-text">Merkle Patricia Tree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Modified-MPT"><span class="toc-number">1.4.</span> <span class="toc-text">Modified MPT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#帐户状态的存储"><span class="toc-number">1.5.</span> <span class="toc-text">帐户状态的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RLP：Recursive-Length-Prefix"><span class="toc-number">1.5.1.</span> <span class="toc-text">RLP：Recursive Length Prefix</span></a></li></ol></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【区块链】ETH-数据结构</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2022-09-02<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2022-09-03</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="状态树"><a href="#状态树" class="headerlink" title="状态树"></a>状态树</h1><p>账户地址的大小是160bits，表示为40个16进制数</p>
+<p>需要实现从地址到状态的映射，考虑以下几个需求：</p>
+<ul>
+<li>易于查找</li>
+<li>能够提供保证数据正确的证明</li>
+<li>账户地址数量多</li>
+<li>不能随着每次出块全部发布出去（每次交易少，状态变化少，出块时间短）</li>
+<li>是否需要规定存放顺序？</li>
+</ul>
+<h2 id="Trie-字典树，前缀树"><a href="#Trie-字典树，前缀树" class="headerlink" title="Trie 字典树，前缀树"></a>Trie 字典树，前缀树</h2><p><img src="/2022/09/02/【区块链】ETH-数据结构/fig1.png" alt="fig1"></p>
+<p>用于存储key-value，有以下优点：</p>
+<ul>
+<li>输入不变，构成的trie是同一棵树，不需要考虑顺序问题</li>
+<li>每个结点的分支数目取决于key的取值范围，因此以太坊帐户的分支为17个（0~f以及一个结束位）</li>
+<li>查找需要的时间取决于key的长度，长度越长，需要访问内存的次数越多</li>
+<li>不可能出现哈希碰撞（如果用哈希表来存可能会有这个问题）</li>
+<li>更新的局部性，当需要修改value时，方便查找，不需要遍历整棵树</li>
+</ul>
+<p>有以下缺点：</p>
+<ul>
+<li>如上图，下部ral和sis都是单支，造成了存储空间的浪费</li>
+</ul>
+<h2 id="Patricia-Tree-压缩前缀树"><a href="#Patricia-Tree-压缩前缀树" class="headerlink" title="Patricia Tree 压缩前缀树"></a>Patricia Tree 压缩前缀树</h2><p>进行路径压缩后的前缀树</p>
+<p><img src="/2022/09/02/【区块链】ETH-数据结构/fig2.png" alt="fig2"></p>
+<p>加入新key，路径可能需要扩展开来</p>
+<p>键的取值比较稀疏时，压缩效果较好</p>
+<p>以太坊的账户地址很长，为$2^{160}$，可以有效避免账户冲突，导致取值稀疏</p>
+<h2 id="Merkle-Patricia-Tree"><a href="#Merkle-Patricia-Tree" class="headerlink" title="Merkle Patricia Tree"></a>Merkle Patricia Tree</h2><p>把普通指针替换为哈希指针</p>
+<p>带来的好处：</p>
+<ul>
+<li>不被篡改</li>
+<li>能够证明数据的正确性</li>
+<li>可以证明某个帐户不在tree上</li>
+</ul>
+<h2 id="Modified-MPT"><a href="#Modified-MPT" class="headerlink" title="Modified MPT"></a>Modified MPT</h2><p><img src="/2022/09/02/【区块链】ETH-数据结构/fig3.png" alt="fig3"></p>
+<p>实际上，每个合约帐户自己也形成一个MPT（storage），因此总体结构是一颗大的MPT包含着很多小的MPT</p>
+<p><img src="/2022/09/02/【区块链】ETH-数据结构/fig4.png" alt="fig4"></p>
+<p>如图所示，是N+1块在合约账户中改变了一个存储值（29-&gt;45）时，state root的变化和每个节点指针的指向情况</p>
+<p>保留历史状态的原因：可能需要状态回滚（出现分叉后交易undo），与比特币简单的交易脚本不同，以太坊中有比较复杂的智能合约代码，如果这些合约改变了账户状态，很难根据改变后的状态和合约代码推断之前的状态，因此需要保存历史状态，方便回滚。</p>
+<h2 id="帐户状态的存储"><a href="#帐户状态的存储" class="headerlink" title="帐户状态的存储"></a>帐户状态的存储</h2><p>需要经过序列化处理（将对象的状态信息转换为可以存储或传输的形式的过程）</p>
+<h3 id="RLP：Recursive-Length-Prefix"><a href="#RLP：Recursive-Length-Prefix" class="headerlink" title="RLP：Recursive Length Prefix"></a>RLP：Recursive Length Prefix</h3><p>在以太坊中，采用了一种名为Recursive Length Prefix(RLP)的方法对交易、账号、合约等基础的数据结构进行序列化处理，从而实现对链上数据的网络传输和持久化存储。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2022/09/02/【区块链】ETH-数据结构/">https://iwannaeat.github.io/2022/09/02/【区块链】ETH-数据结构/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/区块链/">区块链    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2022/09/02/【区块链】ETH-帐户/"><img class="next_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【区块链】ETH-帐户</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-分叉/" title="【区块链】BTC-分叉"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-分叉</div></a></div><div class="relatedPosts_item"><a href="/2021/12/02/【区块链】BTC-实现/" title="【区块链】BTC-实现"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-实现</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-匿名性/" title="【区块链】BTC-匿名性"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-匿名性</div></a></div><div class="relatedPosts_item"><a href="/2022/05/07/【区块链】BTC-挖矿/" title="【区块链】BTC-挖矿"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-挖矿</div></a></div><div class="relatedPosts_item"><a href="/2022/09/02/【区块链】ETH-帐户/" title="【区块链】ETH-帐户"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】ETH-帐户</div></a></div><div class="relatedPosts_item"><a href="/2021/11/20/【区块链】BTC-共识协议/" title="【区块链】BTC-共识协议"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-共识协议</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2022 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

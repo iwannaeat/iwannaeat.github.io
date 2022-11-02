@@ -1,0 +1,160 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【区块链】跨链基础知识 | Hexo</title><meta name="description" content="关于跨链的一些基础知识整理（预习），来自跨区块链系统交互方法研究文章，以及一些博客的总结。"><meta name="keywords" content="区块链"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2022/11/01/【区块链】跨链基础知识/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【区块链】跨链基础知识"><meta name="twitter:description" content="关于跨链的一些基础知识整理（预习），来自跨区块链系统交互方法研究文章，以及一些博客的总结。"><meta name="twitter:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta property="og:type" content="article"><meta property="og:title" content="【区块链】跨链基础知识"><meta property="og:url" content="https://iwannaeat.github.io/2022/11/01/【区块链】跨链基础知识/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="关于跨链的一些基础知识整理（预习），来自跨区块链系统交互方法研究文章，以及一些博客的总结。"><meta property="og:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="【区块链】跨链—哈希时间锁" href="https://iwannaeat.github.io/2022/11/02/【区块链】跨链—-哈希时间锁/"><link rel="next" title="【区块链】查询-Gem2Tree" href="https://iwannaeat.github.io/2022/10/12/【区块链】查询-Gem2Tree/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#技术意义"><span class="toc-number">1.</span> <span class="toc-text">技术意义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#应用场景"><span class="toc-number">2.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#研究现状"><span class="toc-number">3.</span> <span class="toc-text">研究现状</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#跨链互操作机制"><span class="toc-number">3.1.</span> <span class="toc-text">跨链互操作机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原子转移"><span class="toc-number">3.1.1.</span> <span class="toc-text">原子转移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公证人机制"><span class="toc-number">3.1.2.</span> <span class="toc-text">公证人机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希锁定"><span class="toc-number">3.1.3.</span> <span class="toc-text">哈希锁定</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#哈希时间锁定合约HTLC-Hashed-Timelock-Contract"><span class="toc-number">3.1.3.1.</span> <span class="toc-text">哈希时间锁定合约HTLC(Hashed Timelock Contract)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改进"><span class="toc-number">3.1.3.2.</span> <span class="toc-text">改进</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Interledger-的-HTLAs-哈希时间锁定协议"><span class="toc-number">3.1.3.2.1.</span> <span class="toc-text">Interledger 的 HTLAs(哈希时间锁定协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#条件支付通道"><span class="toc-number">3.1.3.2.1.1.</span> <span class="toc-text">条件支付通道</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#链上持有-托管"><span class="toc-number">3.1.3.2.1.2.</span> <span class="toc-text">链上持有 / 托管</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#简单支付通道"><span class="toc-number">3.1.3.2.1.3.</span> <span class="toc-text">简单支付通道</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#信任线"><span class="toc-number">3.1.3.2.1.4.</span> <span class="toc-text">信任线</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#重试哈希锁"><span class="toc-number">3.1.3.2.2.</span> <span class="toc-text">重试哈希锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#侧链"><span class="toc-number">3.1.4.</span> <span class="toc-text">侧链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中继链"><span class="toc-number">3.1.5.</span> <span class="toc-text">中继链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#双向锚定"><span class="toc-number">3.1.5.1.</span> <span class="toc-text">双向锚定</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#锚定式侧链"><span class="toc-number">3.1.5.1.1.</span> <span class="toc-text">锚定式侧链</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跨链互操作协议"><span class="toc-number">3.2.</span> <span class="toc-text">跨链互操作协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#跨链通信协议"><span class="toc-number">3.2.1.</span> <span class="toc-text">跨链通信协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨链资产交换"><span class="toc-number">3.2.2.</span> <span class="toc-text">跨链资产交换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跨链各层系统技术"><span class="toc-number">3.3.</span> <span class="toc-text">跨链各层系统技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#跨链通信协议-1"><span class="toc-number">3.3.1.</span> <span class="toc-text">跨链通信协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨链共识协议"><span class="toc-number">3.3.2.</span> <span class="toc-text">跨链共识协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨链智能合约"><span class="toc-number">3.3.3.</span> <span class="toc-text">跨链智能合约</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跨链系统交互架构"><span class="toc-number">3.4.</span> <span class="toc-text">跨链系统交互架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多级多链跨链模型"><span class="toc-number">3.4.1.</span> <span class="toc-text">多级多链跨链模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单链跨链"><span class="toc-number">3.4.1.1.</span> <span class="toc-text">单链跨链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多链跨链"><span class="toc-number">3.4.1.2.</span> <span class="toc-text">多链跨链</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【区块链】跨链基础知识</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2022-11-01<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2022-11-02</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="技术意义"><a href="#技术意义" class="headerlink" title="技术意义"></a>技术意义</h1><p><strong>区块链网络孤立性</strong>：受制于区块链架构、数据结构、接口协议、共识机制乃至于业务模式等的不同，各个区块链应用间形成了新的“链孤岛”，直接限制了他们之间的资产交换、业务协同等<strong>互操作</strong>和多链融合问题。</p>
+<p>利用跨链技术：实现数据交互、资产互通与业务协同</p>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p><img src="/2022/11/01/【区块链】跨链基础知识/mBlog\source\_posts\【区块链】跨链基础知识\fig1.png" alt="fig1"></p>
+<h1 id="研究现状"><a href="#研究现状" class="headerlink" title="研究现状"></a>研究现状</h1><h2 id="跨链互操作机制"><a href="#跨链互操作机制" class="headerlink" title="跨链互操作机制"></a>跨链互操作机制</h2><p>需要注意的点：</p>
+<ul>
+<li>交易双方身份的隐私保护</li>
+<li>是否保证原子性</li>
+<li>是否去中心化</li>
+<li>效率问题</li>
+<li>攻击问题</li>
+</ul>
+<h3 id="原子转移"><a href="#原子转移" class="headerlink" title="原子转移"></a>原子转移</h3><h3 id="公证人机制"><a href="#公证人机制" class="headerlink" title="公证人机制"></a>公证人机制</h3><p>原理：公证人机制(Notary schemes)又叫做见证人机制，通过引入第三方中介的方式,在两条不能直接进行互操作的链之间，进行跨链消息的验证和转发</p>
+<p>优点：</p>
+<ul>
+<li>原理简单</li>
+<li>可用于异构跨链</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>存在中心化问题</li>
+</ul>
+<p>种类：</p>
+<ul>
+<li>多重签名公证人机制：指跨区块链交易需要多个公证人签名后交易才能被确认，通常它是由公证人在各自的账本上用独立的密钥签名，当签名的数量达到预先设定好的数量时，才能达成交易<ul>
+<li>安全性更高</li>
+<li>要求两条链都支持多重签名功能</li>
+</ul>
+</li>
+<li>分布式签名公证人机制：采用多方计算的思想，利用密码学原理将密钥分别拆分成多个密钥加密后的密文，并随机分发给公证人，设定允许一定数量的公证人在他们共同签名之后可以合成完整的密钥，这就达到了去中心化验证的过程，即使所有公证人将碎片拼凑在一起也无法得知完整的密钥，全面地保障了密钥的安全性</li>
+</ul>
+<h3 id="哈希锁定"><a href="#哈希锁定" class="headerlink" title="哈希锁定"></a>哈希锁定</h3><p>原理：</p>
+<ul>
+<li>哈希函数的单向性和抗碰撞性</li>
+<li>交易存在时间差</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>去中心化，不需要公证人</li>
+<li>交易双方身份的隐私保护：随机数S和哈希锁的传递可以在链下进行</li>
+<li>有效保证交易原子性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不能实现跨链合约的执行</li>
+<li>只能实现跨链的资产兑换，并且要求转账双方在两条链上都有账户，即各链资产总量保持不变的情况下，资产的持有人发生变化，无法实现真正将资产转移至另一条链上</li>
+<li>退款时间长</li>
+</ul>
+<p>哈希锁定的交换思路是，一方基于哈希值锁定资产，设定规定时间内如果能提供原哈系数，则可获取资产;另一方使用同样的哈希值锁定资产，也设置同样的解锁条件，一方使用哈希数解锁获取资产，另一方利用同样的哈希数获取资产。如图1-3所示，假设A和B两个用户同时在两条链上都有自己的钱包地址。现在用户甲在A钱包地址上有一笔资产，用户乙在B钱包地址上也有自己的资产，用户甲提出想用自己在A钱包地址上的资产来换取用户乙在B钱包地址上的资产。</p>
+<p>甲生成随机数S，将随机数的哈希值H(S)发给乙，并且使用H(S)锁定自己要交换的币；乙使用同样的H(S)锁定自己的币，等待甲在规定时间内使用S来解锁，解锁后乙已知随机数S，就可以用S来解锁甲的币。具体流程见博客。</p>
+<p><strong>哈希时间锁定合约</strong>HTLC （Hashed Timelock Contract）是其典型实现方式。</p>
+<h4 id="哈希时间锁定合约HTLC-Hashed-Timelock-Contract"><a href="#哈希时间锁定合约HTLC-Hashed-Timelock-Contract" class="headerlink" title="哈希时间锁定合约HTLC(Hashed Timelock Contract)"></a>哈希时间锁定合约HTLC(Hashed Timelock Contract)</h4><p>假设A想给C转1个BTC，但是A和C之间没有双向转支付通道，但是B和A、C都有通道，那么A可以直接在链上给C转1个BTC，也可以和C建议通道以后再转，也可以拜托B帮忙转1BTC。A通过双向支付通道 经由B给C转1BTC的过程，就是<a href="https://baike.baidu.com/item/闪电网络?fromModule=lemma_inlink" target="_blank" rel="noopener">闪电网络</a>的应用。在不可信的情况下，转账过程中使用哈希时间锁定合约</p>
+<ol>
+<li>为了完成这次交易，A会先给C发一个随机数字R，接着C会对R进行<a href="https://baike.baidu.com/item/签名?fromModule=lemma_inlink" target="_blank" rel="noopener">签名</a>，生成一个哈希H，并返回给A。</li>
+<li>然后A就找到B，如果B能够给出生成签名H的key，那么A就同意更新渠道的支付分配，为B转1个BTC。实际上，A和B会先更新Commitment  Tx，A生成三个交易，C1a,RD1a和HTLC(a)，C1a和RD1a的内容同上面的RSMC，HTLC(a)的内容为，如果B找到可签名H的key，B可以直接拿走HTLC中的1BTC，否则HTLC(a)中的1BTC在一定的锁定期之后，A可以重新花掉。</li>
+<li>之后B会拿着H去找C，用1个BTC来换签名key，同时更新B和C的支付分配。更新过程同A和B之间一样，基于HTLC。因为签名的key就是从C这里生成的，所以他肯定知道，而且理论上也只有他才知道。接着C将签名用的key告诉B，并更新了其渠道的支付分配。</li>
+<li>同理，B使用key从A那里也拿到了1BTC，A以脱链的形式付给C一个BTC。</li>
+<li>这里有两个需要注意的问题，A和B之间以及B和C之间的支付分配都会重新创建Commitment Tx,而每个Commitment  Tx带有锁定时间(如之间的1000个确认)，A和B之间的锁定时间需要长于B和C之间的锁定时间，防止在B拿到key之后，A和B之间的锁定时间已经到期，B会拿不到币。</li>
+<li>第二个问题是：在B找C拿key的过程中，A和B之间的通道可以随时断开，B不需要信任A在此期间会关闭通道，因为即使A作恶，故意关闭通道，HTLC(a)中的币，A还需要等到一定的锁定期以后才能花掉，只要B在这个锁定期内拿到签名所用的key，就可以从HTLC(a)中拿走1BTC。</li>
+<li>B作为中间人，可以收取少量的费用。</li>
+<li>通道之间的<a href="https://baike.baidu.com/item/交易/32757?fromModule=lemma_inlink" target="_blank" rel="noopener">交易</a>，实际上无需确认等待，瞬时完成的，对于比特币的TPS有大量的提升。</li>
+</ol>
+<p>HTLC可能造成双花攻击：Alice 利用 HTLC 通道，通过节点 Carol 给 Bob 转账，但现在由于某些原因，Carol  出现故障，无法在时间锁设定时间内在线，从而 Alice 无法通过 Carol 转账。如果原来的 HTLC 没有到期，Alice  要换路径的话，会面临很大风险。原因是，Bob 可以与 Carol 共谋，Bob 在通过新路径拿到支付金额后，再向 Carol 透露原 HTLC  的原像，从而 Alice 在原来那条路径锁定的资金也就会被 Carol 解锁取走，Alice  就相当于支付了两次。因此，一旦有节点掉线，等待时间锁解锁成为唯一选项</p>
+<ul>
+<li>雷电网络中针对这一问题，使用了重试哈希锁技术(Retry Hashlock)</li>
+<li>Interledger 的 HTLAs(哈希时间锁定协议)</li>
+</ul>
+<h4 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h4><h5 id="Interledger-的-HTLAs-哈希时间锁定协议"><a href="#Interledger-的-HTLAs-哈希时间锁定协议" class="headerlink" title="Interledger 的 HTLAs(哈希时间锁定协议)"></a>Interledger 的 HTLAs(哈希时间锁定协议)</h5><p>HTLAs （Hashed Time-Lock Agreements）是 Interledger 提出的基于 HTLC  的泛化协议，目标是不管区块链账本是否支持 HTLC 协议，不管其是分布式区块链还是中心化账本，系统和系统之间都能使用 HTLAs  实现跨链交换，并且支持多个系统之间的多跳跨链互换。在 HTLAs 下，不同用户节点可以根据交易所需通过不同种类的 HTLAs 完成交易，而  Interledger 协议可以确保每个 HTLAs 拥有独立的安全性，不会受其他区块链交易失败的影响。</p>
+<p>HTLAs 根据系统支持的功能性主要可区分成四种：条件支付通道（Conditional Payment Channels with  HTLC）、链上持有 / 托管 (On-Ledger Holds/Escrow with HTLC)、简单支付通道 (Simple  Payment Channels) 以及信任线 (Trustlines)。</p>
+<h6 id="条件支付通道"><a href="#条件支付通道" class="headerlink" title="条件支付通道"></a>条件支付通道</h6><p>此种协议需要区块链账本支持 HTLC 条件支付通道，并可以在交易结束后更新通道余额。闪电网络的 HTLC  机制属于这类。交易参与者需要在区块链上预先支付一笔资金至双方共有的临时账户中  (即通道余额)。当交易开始时，发送者会发送一个带有哈希锁和时间锁以及附带签名的更新到接收者。若接收者能在约定时间内告知哈希锁的原像，则可从账户中获取资金，并且发送者与接收者需要同时签名确认共有账户的余额变动。由于交易的传输和处理时间会被计算在交易时间范围内，所以该种协议更适合支持高速交易的区块链系统。</p>
+<h6 id="链上持有-托管"><a href="#链上持有-托管" class="headerlink" title="链上持有 / 托管"></a>链上持有 / 托管</h6><p>此种协议需要区块链支持 HTLC 协议，并且费率低、交易速度快、吞吐量高。以太坊和 Ripple  第三方托管合约属于此类。交易参与者可以直接通过 HTLC  协议发起跨链交易。交易发起者将要传输的资金先放到区块链提供的特定持有账户中，并且附带哈希锁和时间锁。只有当接收者在约定时间前能提供正确的哈希原像，区块链才将资金发送给接收者，否则区块链会把资金退回给发送者。只要区块链是可信赖的，这种方式可由区块链全权控制交易状态，交易双方没有额外风险。它与条件支付通道的差异是，交易参与者是将资金存放在区块链账户，而非双方共有账户。</p>
+<h6 id="简单支付通道"><a href="#简单支付通道" class="headerlink" title="简单支付通道"></a>简单支付通道</h6><p>简单支付通道的特点是交易双方可以合并多个交易而只清算最终账户的净轧差。简单支付通道交易发生在区块链之外而非链上，且双方需要在同一区块链上拥有账户。交易分为以下三个阶段 : 设立阶段、状态更新阶段以及清算阶段。</p>
+<p>(1) 设立阶段 : 假设 Alice 和 Bob 进行交易准备，其中一方或双方需要将一定数量的资金托管在一个暂时性且共享的支付通道中。</p>
+<p>(2) 状态更新阶段 : 在交易开始前，双方先签署一个状态声明，用以表示支付通道中双方资金占比。Alice  会传送一个签署过后带有哈希锁及时间锁的状态声明给 Bob(而非区块链)。该更新后的状态声明呈现了交易结束后双方在支付通道的资金占比分配。唯有当  Bob 在时间锁设定的时间内传送哈希值的原像，状态声明才会更新。交易通道并无方向限制，只要双方余额为正值便可持续双向交易。</p>
+<p>(3) 清算阶段：一旦有一方参与者想停止使用支付通道，可以执行退出操作——将最后的状态声明更新提交至区块链，结算后的余额会退给发起支付通道的两方。主链可以通过核实签名和最后结余来验证状态更新的有效性，从而防止参与者使用无效状态来退出支付通道。</p>
+<p>简单支付通道与闪电网络所使用的条件支付最大差异在于是否有强制性。在两个方法下，双方同样是通过链外协议交换签署过的状态声明进行交易。但在条件支付下，一旦在设定时间内 HTLC 条件满足，区块链会强制执行转账。而在简单支付通道下，即使在设定时间内 HTLC  条件满足，链上转账与否仍是双方操作，并无强制性，因此较依赖双方之间的信任程度。</p>
+<h6 id="信任线"><a href="#信任线" class="headerlink" title="信任线"></a>信任线</h6><p>信任线是交易双方凭借信任基础进行的一种交易方式。信任线交易发生在链下而非链上，只有最后清算在链上发生。交易可以分为以下三个阶段 : 设立阶段、状态更新阶段以及清算阶段。</p>
+<p>(1) 设立阶段 : 假设交易发送者 Alice 及交易接收者 Bob 在同一个区块链上拥有账户，想要开始一个信任线交易。Alice  首先需要设定 Bob 的信任线额度，这个信任线额度关系到 Bob 可以在双方的信任线做的交易额度而无须清算。同样，Bob 也需要设定 Alice 的信任线额度。</p>
+<p>(2) 状态更新阶段 : 在交易开始时，Alice 会传送一道带有哈希锁及时间锁的交易讯息给 Bob。当 Bob  在时间锁设定的时间内传送哈希值的原像至 Alice  后，双方的信任线状态会更新，一方余额增加而另一方余额减少。此阶段尚未清算。信任线为双向通道，只要交易总金额并未超过双方信任线额度便可一直进行交易，而无须在链上进行清算。</p>
+<p>(3) 清算阶段 : 交易双方将总净额在区块链上清算以结束交易。</p>
+<p>信任线和简单支付通道的主要有两个差异 :  一是在信任线机制下，交易双方无须存一笔保证金至通道，可以以最初设定的余额进行逐笔交易，相当于信用交易。二是一旦交易总金额超过双方信任线额度，或是双方同意清算，便可以直接进行一笔链上转账结束交易。而在简单支付通道机制下，任何一方均可主动结束交易，不需双方同意。</p>
+<p><img src="/2022/11/01/【区块链】跨链基础知识/mBlog\source\_posts\【区块链】跨链基础知识\fig2.jpg" alt="fig2"></p>
+<p><img src="/2022/11/01/【区块链】跨链基础知识/mBlog\source\_posts\【区块链】跨链基础知识\fig3.jpg" alt="fig3"></p>
+<h5 id="重试哈希锁"><a href="#重试哈希锁" class="headerlink" title="重试哈希锁"></a>重试哈希锁</h5><p>在闪电网络中，HTLC 的原像一般由收款人设置，然后将原像的哈希值提供给付款人。但这种设计存在一定问题：如果付款人想在原先 HTLC  时间锁解锁前发起另一个相同交易，中间人与收款人将有合谋的可能性，导致付款人重复付款（见前文）。为了缓解这个问题，雷电网络设置了重试哈希锁  (Retry Hashlock)。为区分两个哈希锁，下文把闪电网络的哈希锁改称为收据哈希锁 (Receipt Hashlock)。</p>
+<p>假设 Alice 在雷电网络上支付一笔款项给 Bob，并且 Alice 需要通过 Carol 建立通道才能与 Bob 进行交易。以下为重试哈希锁机制 :</p>
+<p>第一步：Bob 设定原像 R （收据哈希锁），把哈希值 H=Hash(R) 告诉 Alice。</p>
+<p>第二步：Alice 设定原像 R（重试哈希锁），其哈希值为 H=Hash(R)。Alice 通过 HTLC 向 Carol 进行条件支付：当且仅当 Carol 在 T 时刻前提供分别与哈希值 H、H对应的原像，Alice 才向 Carol 支付资金。</p>
+<p>第三步 : Carol 通过 HTLC 向 Bob 进行条件支付：当且仅当 Bob 在 t 时刻前提供分别与哈希值 H、H*对应的原像，Carol 才向 Bob 支付。其中，t</p>
+<p>第四步：当 Alice 确认 Carol 发起交易并成功设定与 Bob 的 HTLC 后，Alice 才会向 Bob 提供哈希值 H对应的原像 R。</p>
+<p>第五步：Bob 已知 R 和 R。Bob 在 t 时刻前向 Carol 提供 R、R，获得资金，此时 Carol 知悉 R、R*。反之，资金会返回给 Carol，Carol 不会遭受任何损失。</p>
+<p>第六步：Carol 在 T 时刻前向 Alice 提供 R、R*，获得资金。反之，资金会返回给 Alice，Alice 不会遭受任何损失。</p>
+<p>在上述机制中，如果在交易途中 Carol 因故无法向 Bob 进行条件支付（第三步），Alice 可以重新设置重试哈希锁，改以另外途径进行支付。Bob 因为不掌握 R*，不能与 Carol 共谋进行双重支付攻击。</p>
+<h3 id="侧链"><a href="#侧链" class="headerlink" title="侧链"></a>侧链</h3><p>侧链是指完全拥有某链的功能的另一条区块链，侧链可以读取和验证主链上的信息，主链不知道侧链的存在，由侧链主动感知主链信息并进行相应的动作。</p>
+<h3 id="中继链"><a href="#中继链" class="headerlink" title="中继链"></a>中继链</h3><p>Polkadot、Cosmos</p>
+<p>是侧链和公证人的结合，中继链中存储着具有访问和验证等互操作需求的区块链的关键信息，并对两条链的跨链信息进行交换。</p>
+<h4 id="双向锚定"><a href="#双向锚定" class="headerlink" title="双向锚定"></a>双向锚定</h4><p>是实现侧链的基础，可以实现将主链上的资产锁定，并在侧链上释放等价固定侧链资产；当侧链上的资产在侧链上锁定后，主链上之前被锁定的等价主链资产可以被释放。双向锚定技术实现的最大难点是侧链协议需兼容现有主链的协议，不能对现有主链的功能造成影响。实现这种双向转移的形式有多种，主流的有单一托管模式、多签联盟模式、SPV (Simplified Payment Verification)证明模式，其中最主流的是SPV 证明模式。</p>
+<p><img src="/2022/11/01/【区块链】跨链基础知识/mBlog\source\_posts\【区块链】跨链基础知识\fig4.png" alt="fig4"></p>
+<h5 id="锚定式侧链"><a href="#锚定式侧链" class="headerlink" title="锚定式侧链"></a>锚定式侧链</h5><p>Blockstream中提出</p>
+<h2 id="跨链互操作协议"><a href="#跨链互操作协议" class="headerlink" title="跨链互操作协议"></a>跨链互操作协议</h2><h3 id="跨链通信协议"><a href="#跨链通信协议" class="headerlink" title="跨链通信协议"></a>跨链通信协议</h3><p>Cosmo和Polkadot分别提出了IBC、XCMP跨链通信协议。</p>
+<p>IBC方案使用通道机制实现排序机制，每条链为每个连接都维持发送和接收两个通道，每个通道维持一个计数器，发送通道的计数器为流出消息生成顺序号，接收通道的计数器则用于校验流入消息的顺序号。</p>
+<p>XCMP方案利用基于Merkle树的简单队列机制确保跨链交易的正确性，并由中继链上的验证人负责把平行链出口队列中的交易转移到目标链的入口队列中。</p>
+<p>区块链之间的<strong>路由机制</strong>是解决区块链互相能够进行寻址的重要技术，链路由是为比特币、以太坊等没有通信功能的子链提供相互通信的桥梁，为防止链路由因遭到攻击而瘫痪，需要一套通信验证机制来加强防御。当从某一条链中发来一条交易到中继，此时需要查找在该高度的区块中是否存有这笔交易。</p>
+<h3 id="跨链资产交换"><a href="#跨链资产交换" class="headerlink" title="跨链资产交换"></a>跨链资产交换</h3><ul>
+<li>基于公证人监督跨链资产交换</li>
+<li>基于中继</li>
+</ul>
+<h2 id="跨链各层系统技术"><a href="#跨链各层系统技术" class="headerlink" title="跨链各层系统技术"></a>跨链各层系统技术</h2><h3 id="跨链通信协议-1"><a href="#跨链通信协议-1" class="headerlink" title="跨链通信协议"></a>跨链通信协议</h3><p>同上</p>
+<h3 id="跨链共识协议"><a href="#跨链共识协议" class="headerlink" title="跨链共识协议"></a>跨链共识协议</h3><p>跨链共识算法需要满足拜占庭容错机制，并且不能依赖于单链的信任机制。跨链系统中的中继链大多采用多种共识机制融合的方案进行数据验证，例如Polkadot通过拜占庭容错共识以及PoS结合，使用赏罚制度督促验证人对自己的投票负责。Tendermint算法对固定且熟知的一组验证人通过公钥进行身份验证，具有高性能、一致性以及防止恶意的参与者做出不当操作等特点。</p>
+<h3 id="跨链智能合约"><a href="#跨链智能合约" class="headerlink" title="跨链智能合约"></a>跨链智能合约</h3><p>挑战：如何统一运行时的环境和语言</p>
+<p>Polkadot的跨链智能合约允许用户在区块链核心逻辑的基础上增加业务逻辑，但不能直接修改区块链或其他智能合约的存储状态，仅限于修改自身的状态以及对其他智能合约或Runtime函数进行外部调用，从而有效防范破坏者的恶意行为。</p>
+<p>Plasma提出了用于激励和强制执行智能合约的框架，将所有区块链计算构造成MapReduce函数的集合，可选择性地提供一个方法将权益证明与Token进行绑定，构建过程使用欺诈验证将智能合约写入主区块链，可扩展到每秒近十亿的状态更新量。</p>
+<h2 id="跨链系统交互架构"><a href="#跨链系统交互架构" class="headerlink" title="跨链系统交互架构"></a>跨链系统交互架构</h2><h3 id="多级多链跨链模型"><a href="#多级多链跨链模型" class="headerlink" title="多级多链跨链模型"></a>多级多链跨链模型</h3><h4 id="单链跨链"><a href="#单链跨链" class="headerlink" title="单链跨链"></a>单链跨链</h4><p>满足单一区块链的扩容或是两个区块链的互操作。</p>
+<h4 id="多链跨链"><a href="#多链跨链" class="headerlink" title="多链跨链"></a>多链跨链</h4><p>Cosmos和Polkadot都基于中继方式实现了多链跨链。</p>
+<p><img src="/2022/11/01/【区块链】跨链基础知识/mBlog\source\_posts\【区块链】跨链基础知识\fig5.png" alt="fig5"></p>
+<p>Cosmos Hub或Polkadot中继链是一个主链，负责管理许多独立的并行区块链。</p>
+<p>Polkadot提出的平行链是以中继模式实现公有链与联盟链和私有链的连接，以以太坊为主实现了与各种平行链的互连,每个平行链都是一个单独的区块链网络。</p>
+<p>Cosmos也是以中继模式实现跨链互操作，它把不同种类的区块链子网看作Zone，通过主干网络Cosmos Hub上运行的IBC协议实现不同Zone之间的互联。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2022/11/01/【区块链】跨链基础知识/">https://iwannaeat.github.io/2022/11/01/【区块链】跨链基础知识/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/区块链/">区块链    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/02/【区块链】跨链—-哈希时间锁/"><img class="prev_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>【区块链】跨链—哈希时间锁</span></div></a></div><div class="next-post pull-right"><a href="/2022/10/12/【区块链】查询-Gem2Tree/"><img class="next_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【区块链】查询-Gem2Tree</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-分叉/" title="【区块链】BTC-分叉"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-分叉</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-匿名性/" title="【区块链】BTC-匿名性"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-匿名性</div></a></div><div class="relatedPosts_item"><a href="/2021/12/02/【区块链】BTC-实现/" title="【区块链】BTC-实现"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-实现</div></a></div><div class="relatedPosts_item"><a href="/2021/11/20/【区块链】BTC-共识协议/" title="【区块链】BTC-共识协议"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-共识协议</div></a></div><div class="relatedPosts_item"><a href="/2022/05/07/【区块链】BTC-挖矿/" title="【区块链】BTC-挖矿"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-挖矿</div></a></div><div class="relatedPosts_item"><a href="/2022/09/02/【区块链】ETH-帐户/" title="【区块链】ETH-帐户"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】ETH-帐户</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2022 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

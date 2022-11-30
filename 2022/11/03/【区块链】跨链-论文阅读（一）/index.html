@@ -1,0 +1,94 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【区块链】跨链-论文阅读（一） | Hexo</title><meta name="description" content="论文《Atomic Cross-Chain Swaps》"><meta name="keywords" content="区块链"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2022/11/03/【区块链】跨链-论文阅读（一）/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【区块链】跨链-论文阅读（一）"><meta name="twitter:description" content="论文《Atomic Cross-Chain Swaps》"><meta name="twitter:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta property="og:type" content="article"><meta property="og:title" content="【区块链】跨链-论文阅读（一）"><meta property="og:url" content="https://iwannaeat.github.io/2022/11/03/【区块链】跨链-论文阅读（一）/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="论文《Atomic Cross-Chain Swaps》"><meta property="og:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="【区块链】查询-FalconDB" href="https://iwannaeat.github.io/2022/11/28/【区块链】查询-FalconDB/"><link rel="next" title="【区块链】跨链—哈希时间锁" href="https://iwannaeat.github.io/2022/11/02/【区块链】跨链—-哈希时间锁/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#模型"><span class="toc-number">1.</span> <span class="toc-text">模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统"><span class="toc-number">1.1.</span> <span class="toc-text">系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交换协议"><span class="toc-number">1.2.</span> <span class="toc-text">交换协议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原子交换协议"><span class="toc-number">3.</span> <span class="toc-text">原子交换协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希锁和哈希密钥"><span class="toc-number">3.1.</span> <span class="toc-text">哈希锁和哈希密钥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两方交易"><span class="toc-number">3.1.1.</span> <span class="toc-text">两方交易</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多方交易"><span class="toc-number">3.1.2.</span> <span class="toc-text">多方交易</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单leader情况"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">单leader情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多leader情况"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">多leader情况</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pebble-Game"><span class="toc-number">3.2.</span> <span class="toc-text">Pebble Game</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lazy-Game"><span class="toc-number">3.2.1.</span> <span class="toc-text">Lazy Game</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eager-Game"><span class="toc-number">3.2.2.</span> <span class="toc-text">Eager Game</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议内容"><span class="toc-number">4.</span> <span class="toc-text">协议内容</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【区块链】跨链-论文阅读（一）</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2022-11-03<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2022-11-03</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h1><h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>有向图D<v,a>，V代表不同区块链节点，A代表资产或数据的转移</v,a></p>
+<h2 id="交换协议"><a href="#交换协议" class="headerlink" title="交换协议"></a>交换协议</h2><p>某协议执行后的结果（对于某一方用户）</p>
+<p><img src="/2022/11/03/【区块链】跨链-论文阅读（一）/fig1.png" alt="fig1"></p>
+<ul>
+<li>FreeRide：获得资产而不付钱，执行的边中至少有一条边终点是该点，但是没有以该点作为起点的边</li>
+<li>Discount：获得所有资产而付更少的钱，所有终点为该点的边都执行了，但是至少有一条起点为该点的边没有被执行</li>
+<li>Deal：正常交易，所有相连边都被执行</li>
+<li>NoDeal：不进行交易，所有边都不执行</li>
+<li>UnderWater：只付钱，不要求获得相应数量的资产，至少有一条以该点为终点的边未执行，至少有一条以该点为起点的边执行了</li>
+</ul>
+<p>交换协议的目标：让所有节点都达到Deal结果，如果出现错误或干扰，达到NoDeal结果</p>
+<p>如图所示：</p>
+<ul>
+<li>NoDeal$\rightarrow$Deal：比起NoDeal结果，每个节点都更加希望达到Deal结果（因为每个节点都是同意产生swap的）</li>
+<li>NoDeal$\rightarrow$FreeRide：能够获得免费的资产</li>
+<li>Deal$\rightarrow$Discount：节点都希望能获得所有资产，但是更希望付更少的钱</li>
+<li>UnderWater是节点不能接受的状态，其余都是能接受的</li>
+</ul>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>交换协议的一致性定义</p>
+<p><img src="/2022/11/03/【区块链】跨链-论文阅读（一）/fig2.png" alt="fig2"></p>
+<p>交换协议的原子性定义：既具有一致性，又是一个强纳什均衡策略</p>
+<p><img src="/2022/11/03/【区块链】跨链-论文阅读（一）/fig3.png" alt="fig3"></p>
+<p>定理：针对D的一致性的交换协议是原子性的，当且仅当D是强连通的；如果D不是强连通的，那么没有任何的交换协议可以达到原子性</p>
+<h1 id="原子交换协议"><a href="#原子交换协议" class="headerlink" title="原子交换协议"></a>原子交换协议</h1><h2 id="哈希锁和哈希密钥"><a href="#哈希锁和哈希密钥" class="headerlink" title="哈希锁和哈希密钥"></a>哈希锁和哈希密钥</h2><p>主要实现是基于哈希锁的（以及时间锁）</p>
+<h3 id="两方交易"><a href="#两方交易" class="headerlink" title="两方交易"></a>两方交易</h3><p>见哈希时间锁合约博客</p>
+<h3 id="多方交易"><a href="#多方交易" class="headerlink" title="多方交易"></a>多方交易</h3><p>每条边都有一个哈希锁和时间锁，进入节点follower v的边的超时时间最少比离开该节点的边的超时时间晚一个$\Delta$（合约发布以及确认需要的时间）。这样做是为了确保离开节点v的边执行后，v有足够的时间去执行进入v的边。</p>
+<h4 id="单leader情况"><a href="#单leader情况" class="headerlink" title="单leader情况"></a>单leader情况</h4><p><img src="/2022/11/03/【区块链】跨链-论文阅读（一）/fig4.png" alt="fig4"></p>
+<p><img src="/2022/11/03/【区块链】跨链-论文阅读（一）/fig5.png" alt="fig5"></p>
+<h4 id="多leader情况"><a href="#多leader情况" class="headerlink" title="多leader情况"></a>多leader情况</h4><p>针对图D给出反馈顶点集$L=\{v_0,…,v_l\}$，L中的节点是leader，每个leader $v_i$持有一个密码$s_i$和密码对应的哈希锁$h_i=H(s_i)$，形成一组哈希锁$(h_0,…,h_l)$，用来分配给每条边</p>
+<p>边$(u,v)$的哈希锁h的钥匙是一个三元组hashkey $(s,p,\sigma)$</p>
+<ul>
+<li>s：密码s</li>
+<li>p：路径 $(v,…,u_k)$ $u_k$是管理该哈希锁的leader节点</li>
+<li>$\sigma$：$\sigma=sig(…sig(s,u_k),…,v)$ 路径中的每个节点都对s签名</li>
+</ul>
+<p>hashkey超时时间长度为$(diam(D)+|p|)\cdot \Delta$，从协议开始时算起（？）</p>
+<p>边被触发：所有哈希锁都被打开</p>
+<p>哈希锁超时：所有该锁对应的key都超时</p>
+<h2 id="Pebble-Game"><a href="#Pebble-Game" class="headerlink" title="Pebble Game"></a>Pebble Game</h2><h3 id="Lazy-Game"><a href="#Lazy-Game" class="headerlink" title="Lazy Game"></a>Lazy Game</h3><p>在从leader出发的边上放石子；如果进入节点v的每条边上都放了石子，那么在从v出发的边上也放上石子</p>
+<h3 id="Eager-Game"><a href="#Eager-Game" class="headerlink" title="Eager Game"></a>Eager Game</h3><p>？？？？？？？</p>
+<h1 id="协议内容"><a href="#协议内容" class="headerlink" title="协议内容"></a>协议内容</h1><p>leader的第一阶段协议：</p>
+<ul>
+<li>在以leader为起点的边上发布合约</li>
+<li>等待，直到所有以leader为终点的边上都有了合约</li>
+</ul>
+<p>follower的协议：</p>
+<ul>
+<li>等待，直到所有进入该节点的边上都有合约</li>
+<li>在以其为起点的边上发布合约</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2022/11/03/【区块链】跨链-论文阅读（一）/">https://iwannaeat.github.io/2022/11/03/【区块链】跨链-论文阅读（一）/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/区块链/">区块链    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/28/【区块链】查询-FalconDB/"><img class="prev_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>【区块链】查询-FalconDB</span></div></a></div><div class="next-post pull-right"><a href="/2022/11/02/【区块链】跨链—-哈希时间锁/"><img class="next_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【区块链】跨链—哈希时间锁</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2021/11/20/【区块链】BTC-共识协议/" title="【区块链】BTC-共识协议"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-共识协议</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-分叉/" title="【区块链】BTC-分叉"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-分叉</div></a></div><div class="relatedPosts_item"><a href="/2021/12/02/【区块链】BTC-实现/" title="【区块链】BTC-实现"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-实现</div></a></div><div class="relatedPosts_item"><a href="/2022/05/07/【区块链】BTC-挖矿/" title="【区块链】BTC-挖矿"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-挖矿</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-匿名性/" title="【区块链】BTC-匿名性"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-匿名性</div></a></div><div class="relatedPosts_item"><a href="/2022/09/02/【区块链】ETH-帐户/" title="【区块链】ETH-帐户"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】ETH-帐户</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2022 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>

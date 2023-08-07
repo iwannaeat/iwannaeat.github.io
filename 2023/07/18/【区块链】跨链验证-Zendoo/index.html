@@ -1,0 +1,109 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>【区块链】跨链验证-Zendoo | Hexo</title><meta name="description" content="Zendoo：a zk-SNARK Verifiable Cross-Chain Transfer Protocol Enabling Decoupled and Decentralized Sidechains"><meta name="keywords" content="区块链"><meta name="author" content="iwannaeat"><meta name="copyright" content="iwannaeat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://iwannaeat.github.io/2023/07/18/【区块链】跨链验证-Zendoo/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【区块链】跨链验证-Zendoo"><meta name="twitter:description" content="Zendoo：a zk-SNARK Verifiable Cross-Chain Transfer Protocol Enabling Decoupled and Decentralized Sidechains"><meta name="twitter:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta property="og:type" content="article"><meta property="og:title" content="【区块链】跨链验证-Zendoo"><meta property="og:url" content="https://iwannaeat.github.io/2023/07/18/【区块链】跨链验证-Zendoo/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="Zendoo：a zk-SNARK Verifiable Cross-Chain Transfer Protocol Enabling Decoupled and Decentralized Sidechains"><meta property="og:image" content="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="【区块链】查询-SlimChain" href="https://iwannaeat.github.io/2023/06/23/【区块链】查询-SlimChain/"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"cookieDomain":"https://iwannaeat.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Bookmark',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zk-snark：简洁的非交互式零知识证明"><span class="toc-number">2.</span> <span class="toc-text">zk-snark：简洁的非交互式零知识证明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zendoo：为侧链设计的转账协议"><span class="toc-number">3.</span> <span class="toc-text">zendoo：为侧链设计的转账协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主链转账到侧链"><span class="toc-number">3.1.</span> <span class="toc-text">主链转账到侧链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#侧链转账到主链"><span class="toc-number">3.2.</span> <span class="toc-text">侧链转账到主链</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#提款证明"><span class="toc-number">3.2.1.</span> <span class="toc-text">提款证明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提款证明验证"><span class="toc-number">3.2.2.</span> <span class="toc-text">提款证明验证</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#保障系统安全的手段"><span class="toc-number">4.</span> <span class="toc-text">保障系统安全的手段</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Hexo</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description"></div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【区块链】跨链验证-Zendoo</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2023-07-18<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> Updated 2023-07-19</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>zendoo：减小了侧链和主链之间的锚定开销</p>
+<ul>
+<li>利用zk-snark</li>
+<li><p>主链只需要从侧链节点获取加密身份验证证书，无需已知侧链的内部结构，如共识机制或支持的交易类型等等</p>
+</li>
+<li><p>侧链可以建立自己的身份验证和验证证书的规则</p>
+</li>
+<li>侧链可以使用集中式的解决方案，只需要将证明提供给主链即可</li>
+</ul>
+<p>与ZK Rollup比较</p>
+<ul>
+<li>不需要将侧链的交易数据推送到主链</li>
+</ul>
+<h1 id="zk-snark：简洁的非交互式零知识证明"><a href="#zk-snark：简洁的非交互式零知识证明" class="headerlink" title="zk-snark：简洁的非交互式零知识证明"></a>zk-snark：简洁的非交互式零知识证明</h1><p>向一个算术约束系统C，证明一组输入满足某个条件</p>
+<ul>
+<li>算术约束系统C：一组有限域F上的多项式</li>
+</ul>
+<p>由三个部分组成</p>
+<ul>
+<li><p>setup：针对一个约束系统C的引导程序，设定安全参数为$\lambda$ 。该程序由一对密钥组成，pk为证明密钥，vk为验证密钥</p>
+<script type="math/tex; mode=display">
+(pk,vk)\leftarrow Setup(C,1^\lambda)</script></li>
+<li><p>prove：生成证明$\pi$，证明$(a,w)$是一组满足约束系统C的值。其中，a是公共输入，w是需要保密的内容（叫做witness）</p>
+<script type="math/tex; mode=display">
+\pi \leftarrow Prove(pk,a,w)</script></li>
+<li><p>verify：验证证明$\pi$是否是输入(a,w)满足约束C的有效证明</p>
+<script type="math/tex; mode=display">
+true/false\leftarrow Verify(vk,a,\pi)</script></li>
+</ul>
+<h1 id="zendoo：为侧链设计的转账协议"><a href="#zendoo：为侧链设计的转账协议" class="headerlink" title="zendoo：为侧链设计的转账协议"></a>zendoo：为侧链设计的转账协议</h1><p>专指比特币场景，以比特币为主链</p>
+<h2 id="主链转账到侧链"><a href="#主链转账到侧链" class="headerlink" title="主链转账到侧链"></a>主链转账到侧链</h2><p>表示为三元组形式</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig1.png" alt="fig1"></p>
+<p>分别为：侧链ID，接收者相关元数据（结构在主链中不固定，语义未知），货币数量</p>
+<p>可以将这种交易视作不可花费的交易</p>
+<h2 id="侧链转账到主链"><a href="#侧链转账到主链" class="headerlink" title="侧链转账到主链"></a>侧链转账到主链</h2><h3 id="提款证明"><a href="#提款证明" class="headerlink" title="提款证明"></a>提款证明</h3><p>表示为二元组形式</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig3.png" alt="fig3"></p>
+<p>所有在当前epoch中的（withdrawal epoch），转账到主链的交易，都收集到<strong>提款证明Withdrawal Certificate (WCert)</strong>中，再将该提款证明提交到主链进行处理（作为主链上的一笔带着提款证明的特殊交易进行处理）</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig4.png" alt="fig4"></p>
+<ul>
+<li>quality：可能会发生同一条侧链在同一个epoch中出现多个提款证明的现象，该现象可能由于侧链的分叉或其他恶意行为。主链会选择最先提交的提款证明，或quality值最高的提款证明来接受</li>
+<li>BTList为侧链转账到主链的交易列表</li>
+<li>proofdata为SNARK verify的输入值，<strong>注意该字段自由规定（公共输入a）</strong></li>
+<li>proof为SNARK proof</li>
+</ul>
+<p>提款证明还扮演着侧链心跳证明的角色，即使不存在侧链到主链的转账，仍然有提款证明定时发送到主链上</p>
+<p>一个withdrawal epoch是由主链上的一系列块来决定的，且每种侧链对应的withdrawal epoch<strong>长度不同</strong>（在侧链创建时进行设置），因此整个系统是一个<strong>异步</strong>的状态</p>
+<p>主链中的withdrawal epoch划分如下所示</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig2.png" alt="fig2"></p>
+<p>侧链必须在下一个withdrawal epoch的前submit_len块内提交提款证明，否则就认为当前侧链为<strong>中断状态</strong>，该侧链之后提交的提款证明将不会再被主链接受</p>
+<h3 id="提款证明验证"><a href="#提款证明验证" class="headerlink" title="提款证明验证"></a>提款证明验证</h3><p>验证内容如下</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig5.png" alt="fig5"></p>
+<ul>
+<li><p>proof为提款证明中的proof</p>
+</li>
+<li><p>$vk_{WCert}$是侧链创建时生成的SNARK验证密钥</p>
+</li>
+<li><p>$wcert_sysdata$ 包括提款证明中需要进行验证的交易列表、quality值，以及该提款证明是否对应当前epoch</p>
+<p>用以下式子表示</p>
+<p><img src="/2023/07/18/【区块链】跨链验证-Zendoo/fig6.png" alt="fig6"></p>
+<p>其中MH(BTList)是交易Merkle tree root，$H(B^{i-1}_{last})$和$H(B^{i}_{last})$是epoch i和i-1的最后一个块的块头哈希</p>
+</li>
+</ul>
+<h1 id="保障系统安全的手段"><a href="#保障系统安全的手段" class="headerlink" title="保障系统安全的手段"></a>保障系统安全的手段</h1><ul>
+<li>在主链上创建一个对应侧链的余额变量，来规定转账的总额</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">iwannaeat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://iwannaeat.github.io/2023/07/18/【区块链】跨链验证-Zendoo/">https://iwannaeat.github.io/2023/07/18/【区块链】跨链验证-Zendoo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/区块链/">区块链    </a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/23/【区块链】查询-SlimChain/"><img class="next_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>【区块链】查询-SlimChain</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2021/11/20/【区块链】BTC-共识协议/" title="【区块链】BTC-共识协议"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-共识协议</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-匿名性/" title="【区块链】BTC-匿名性"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-匿名性</div></a></div><div class="relatedPosts_item"><a href="/2022/09/01/【区块链】BTC-分叉/" title="【区块链】BTC-分叉"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-分叉</div></a></div><div class="relatedPosts_item"><a href="/2021/12/02/【区块链】BTC-实现/" title="【区块链】BTC-实现"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-实现</div></a></div><div class="relatedPosts_item"><a href="/2022/05/07/【区块链】BTC-挖矿/" title="【区块链】BTC-挖矿"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-挖矿</div></a></div><div class="relatedPosts_item"><a href="/2022/05/01/【区块链】BTC-网络/" title="【区块链】BTC-网络"><img class="relatedPosts_cover lozad" data-src="https://i.loli.net/2021/11/20/H5fXO6A41zoCF9n.png"><div class="relatedPosts_title">【区块链】BTC-网络</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2023 By iwannaeat</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="Read Mode"> </i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="Dark Mode"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script></body></html>
